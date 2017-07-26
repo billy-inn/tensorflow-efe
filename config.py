@@ -30,3 +30,5 @@ FB15K_E2ID = "%s/e2id.txt" % FB15K_DATA_PATH
 FB15K_R2ID = "%s/r2id.txt" % FB15K_DATA_PATH
 
 # ----------------------- PARAM -----------------------
+
+RANDOM_SEED = None

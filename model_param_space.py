@@ -1,13 +1,24 @@
 import numpy as np
 from hyperopt import hp
 
+# required params: 
+# - embedding_size
+# - lr
+# - batch_size
+# - max_iter
+# - neg_ratio
+# - contiguous_sampling
+# - valid_every
+
 param_space_TransE_L2 = {
 	"embedding_size": 50,
 	"margin": 1.0,
 	"lr": 0.01,
 	"batch_size": 100,
-	"num_epochs": 100,
+	"max_iter": 1000,
 	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 100,
 }
 
 param_space_dict = {
@@ -15,7 +26,7 @@ param_space_dict = {
 }
 
 int_params = [
-	"embedding_size", "batch_size", "num_epochs", "neg_ratio",
+	"embedding_size", "batch_size", "max_iter", "neg_ratio",
 ]
 
 class ModelParamSpace:
