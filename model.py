@@ -58,7 +58,9 @@ class Model(object):
 		"""
 		Define the training operator: self.train_op
 		"""
-		raise NotImplementedError("Each Model must re-implement this method.")
+		optimizer = tf.train.AdamOptimizer(self.lr)
+		self.grads_and_vars = optimizer.compute_gradients(self.loss)
+		self.train_op = optimizer.apply_gradients(self.grads_and_vars, global_step=self.global_step)
 
 	def action_before_update(self):
 		"""
@@ -87,8 +89,8 @@ class Model(object):
 		def pred_func(test_triples):
 			return self.predict(sess, test_triples)
 
-		best_step = -1
 		best_mrr = -1
+		best_res = None
 		for i in range(self.max_iter):
 			input_batch = train_batch_loader()
 			self.action_before_update()
@@ -97,15 +99,17 @@ class Model(object):
 			if (current_step % self.valid_every == 0) and (valid_triples is not None):
 				print("\nValidation:")
 				res = scorer.compute_scores(pred_func, valid_triples)
-				print("raw mrr {:g}, filtered mrr {:g}".format(res.raw_mrr, res.mrr))
+				print("Raw MRR {:g}, Filtered MRR {:g}".format(res.raw_mrr, res.mrr))
+				print("Raw: Hits@1 {:g} Hits@3 {:g} Hits@10 {:g}".format(res.raw_hits_at1, res.raw_hits_at3, res.raw_hits_at10))
+				print("Filtered: Hits@1 {:g} Hits@3 {:g} Hits@10 {:g}".format(res.hits_at1, res.hits_at3, res.hits_at10))
 				if best_mrr >= res.mrr:
 					print("Validation filtered MRR decreased, stopping here!")
 					break
 				else:
 					best_mrr = res.mrr
-					best_step = current_step
+					best_res = res
 				print("")
-		return best_step, best_mrr
+		return best_res
 	
 	def build(self):
 		self.add_placeholders()

@@ -38,11 +38,6 @@ class TransE_L2(Model):
 				- tf.reduce_mean(tf.reshape(l2_loss(e1_neg + r_neg - e2_neg), (self.batch_size, self.neg_ratio)), axis=-1))
 		self.loss = tf.reduce_mean(losses)
 
-	def add_training_op(self):
-		optimizer = tf.train.AdamOptimizer(self.lr)
-		self.grads_and_vars = optimizer.compute_gradients(self.loss)
-		self.train_op = optimizer.apply_gradients(self.grads_and_vars, global_step=self.global_step)
-
 	def action_before_update(self):
 		self.entity_embedding = tf.nn.l2_normalize(self.entity_embedding, dim=-1)
 

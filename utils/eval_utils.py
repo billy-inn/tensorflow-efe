@@ -8,15 +8,15 @@ class Result(object):
 		self.mrr = np.mean(1.0 / ranks)
 		self.raw_mrr = np.mean(1.0 / raw_ranks)
 
-		#cnt = float(len(ranks))
+		cnt = float(len(ranks))
 
-		#self.hits_at1 = np.sum(ranks <= 1) / cnt
-		#self.hits_at3 = np.sum(ranks <= 3) / cnt
-		#self.hits_at10 = np.sum(ranks <= 10) / cnt
+		self.hits_at1 = np.sum(ranks <= 1) / cnt
+		self.hits_at3 = np.sum(ranks <= 3) / cnt
+		self.hits_at10 = np.sum(ranks <= 10) / cnt
 
-		#self.raw_hits_at1 = np.sum(raw_ranks <= 1) / cnt
-		#self.raw_hits_at3 = np.sum(raw_ranks <= 3) / cnt
-		#self.raw_hits_at10 = np.sum(raw_ranks <= 10) / cnt
+		self.raw_hits_at1 = np.sum(raw_ranks <= 1) / cnt
+		self.raw_hits_at3 = np.sum(raw_ranks <= 3) / cnt
+		self.raw_hits_at10 = np.sum(raw_ranks <= 10) / cnt
 
 class Scorer(object):
 	def __init__(self, train, valid, test, n_entities):

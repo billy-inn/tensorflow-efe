@@ -5,6 +5,8 @@ DATA_PATH = "%s/data" % ROOT_PATH
 WN18_DATA_PATH = "%s/wn18" % DATA_PATH
 FB15K_DATA_PATH = "%s/fb15k" % DATA_PATH
 
+LOG_PATH = "%s/log" % ROOT_PATH
+
 # ----------------------- DATA ------------------------
 
 WN18_TRAIN_RAW = "%s/train.txt" % WN18_DATA_PATH
