@@ -43,4 +43,6 @@ class TransE_L2(Model):
 		self.grads_and_vars = optimizer.compute_gradients(self.loss)
 		self.train_op = optimizer.apply_gradients(self.grads_and_vars, global_step=self.global_step)
 
+	def action_before_update(self):
+		self.entity_embedding = tf.nn.l2_normalize(self.entity_embedding)
 

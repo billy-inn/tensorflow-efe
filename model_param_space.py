@@ -11,10 +11,10 @@ from hyperopt import hp
 # - valid_every
 
 param_space_TransE_L2 = {
-	"embedding_size": 50,
-	"margin": 1.0,
+	"embedding_size": 200,
+	"margin": 0.5,
 	"lr": 0.01,
-	"batch_size": 100,
+	"batch_size": 2000,
 	"max_iter": 1000,
 	"neg_ratio": 1,
 	"contiguous_sampling": False,

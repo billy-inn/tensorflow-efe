@@ -60,6 +60,12 @@ class Model(object):
 		"""
 		raise NotImplementedError("Each Model must re-implement this method.")
 
+	def action_before_update(self):
+		"""
+		(Optional) Define actions before updating the embeddings. For example, normalization in TransE model. 
+		"""
+		pass
+
 	def train_on_batch(self, sess, input_batch):
 		feed = self.create_feed_dict(**input_batch)
 		_, step, loss = sess.run([self.train_op, self.global_step, self.loss], feed_dict=feed)
@@ -85,6 +91,7 @@ class Model(object):
 		best_mrr = -1
 		for i in range(self.max_iter):
 			input_batch = train_batch_loader()
+			self.action_before_update()
 			self.train_on_batch(sess, input_batch)
 			current_step = tf.train.global_step(sess, self.global_step)
 			if (current_step % self.valid_every == 0) and (valid_triples is not None):

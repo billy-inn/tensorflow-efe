@@ -26,7 +26,7 @@ class Scorer(object):
 
 		self.update_known_triples(train)
 		self.update_known_triples(test)
-		if valid != None:
+		if valid is not None:
 			self.update_known_triples(valid)
 	
 	def update_known_triples(self, triples):
