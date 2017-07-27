@@ -68,10 +68,15 @@ class Task:
 		self.logger.info("\t\tRun\t\tRaw MRR\t\tFiltered MRR")
 
 		cv_res = []
-		for i in range(1):
+		for i in range(5):
 			sess = self.create_session()
 			sess.run(tf.global_variables_initializer())
-			res = self.model.fit(sess, self.train_triples, self.valid_triples, self.scorer)
+			self.model.fit(sess, self.train_triples)
+			
+			def pred_func(test_triples):
+				return self.model.predict(sess, test_triples)
+
+			res = self.scorer.compute_scores(pred_func, self.valid_triples)
 			self.logger.info("\t\t%d\t\t%f\t\t%f" % (i, res.raw_mrr, res.mrr))
 			cv_res.append(res)
 			sess.close()
@@ -105,6 +110,7 @@ class TaskOptimizer:
 		param_dict = self.model_param_space._convert_into_param(param_dict)
 		self.task = Task(self.model_name, self.data_name, param_dict, self.logger)
 		self.task.cv()
+		tf.reset_default_graph()
 		ret = {
 			"loss": -self.task.mrr,
 			"attachments": {

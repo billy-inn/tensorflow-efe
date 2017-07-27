@@ -11,11 +11,11 @@ from hyperopt import hp
 # - valid_every
 
 param_space_TransE_L2 = {
-	"embedding_size": 200,
-	"margin": 0.5,
-	"lr": 0.01,
+	"embedding_size": hp.quniform("embedding_size", 10, 200, 10),
+	"margin": hp.quniform("margin", 0.5, 5, 0.5),
+	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-1), 1e-3),
 	"batch_size": 2000,
-	"max_iter": 100,
+	"max_iter": hp.quniform("max_iter", 1000, 2000, 100),
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
 	"valid_every": 100,
@@ -26,7 +26,7 @@ param_space_dict = {
 }
 
 int_params = [
-	"embedding_size", "batch_size", "max_iter", "neg_ratio",
+	"embedding_size", "batch_size", "max_iter", "neg_ratio", "valid_every",
 ]
 
 class ModelParamSpace:
