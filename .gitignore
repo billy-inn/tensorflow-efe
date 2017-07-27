@@ -1,4 +1,12 @@
 __pycache__/
 *.swp
 *.py[cod]
-*/__pycache__/
+utils/__pycache__/
+
+data/wn18/digitized_*
+data/wn18/r2id.txt
+data/wn18/e2id.txt
+
+data/fb15k/digitized_*
+data/fb15k/r2id.txt
+data/fb15k/e2id.txt

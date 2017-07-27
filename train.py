@@ -4,6 +4,7 @@ import pandas as pd
 import config
 from efe import TransE_L2
 from utils.data_utils import load_dict_from_txt
+from utils.eval_utils import Scorer
 from optparse import OptionParser
 from model_param_space import param_space_dict
 
@@ -28,6 +29,8 @@ def train(model_name, data_name, params_dict):
 		e2id = load_dict_from_txt(config.FB15K_E2ID)
 		r2id = load_dict_from_txt(config.FB15K_R2ID)
 	
+	scorer = Scorer(train_triples, valid_triples, test_triples, len(e2id))
+	
 	with tf.Graph().as_default():
 		session_conf = tf.ConfigProto(
 				allow_soft_placement=True,
@@ -38,7 +41,7 @@ def train(model_name, data_name, params_dict):
 
 			sess.run(tf.global_variables_initializer())
 
-			model.fit(sess, train_triples, valid_triples)
+			model.fit(sess, train_triples, valid_triples, scorer)
 
 		sess.close()
 	tf.reset_default_graph()
