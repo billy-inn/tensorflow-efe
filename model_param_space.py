@@ -21,8 +21,20 @@ param_space_TransE_L2 = {
 	"valid_every": 100,
 }
 
+param_space_best_TransE_L2 = {
+	"embedding_size": 100,
+	"margin": 2,
+	"lr": 0.01,
+	"batch_size": 2000,
+	"max_iter": 1000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 100,
+}
+
 param_space_dict = {
 	"TransE_L2": param_space_TransE_L2,
+	"best_TransE_L2": param_space_best_TransE_L2,
 }
 
 int_params = [

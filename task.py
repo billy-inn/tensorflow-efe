@@ -97,6 +97,22 @@ class Task:
 		self.logger.info("Raw: Hits@1 %.3f Hits@3 %.3f Hits@10 %.3f" % (self.raw_hits_at1, self.raw_hits_at3, self.raw_hits_at10))
 		self.logger.info("Filtered: Hits@1 %.3f Hits@3 %.3f Hits@10 %.3f" % (self.hits_at1, self.hits_at3, self.hits_at10))
 		self.logger.info("-" * 50)
+	
+	def refit(self):
+		sess = self.create_session()
+		sess.run(tf.global_variables_initializer())
+		self.model.fit(sess, np.concatenate((self.train_triples, self.valid_triples)))
+
+		def pred_func(test_triples):
+			return self.model.predict(sess, test_triples)
+
+		res = self.scorer.compute_scores(pred_func, self.test_triples)
+		self.logger.info("Test Results:")
+		self.logger.info("Raw MRR: %.6f" % res.raw_mrr)
+		self.logger.info("Filtered MRR: %.6f" % res.mrr)
+		self.logger.info("Raw: Hits@1 %.3f Hits@3 %.3f Hits@10 %.3f" % (res.raw_hits_at1, res.raw_hits_at3, res.raw_hits_at10))
+		self.logger.info("Filtered: Hits@1 %.3f Hits@3 %.3f Hits@10 %.3f" % (res.hits_at1, res.hits_at3, res.hits_at10))
+		return res
 
 class TaskOptimizer:
 	def __init__(self, model_name, data_name, max_evals, logger):
