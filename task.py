@@ -56,6 +56,7 @@ class Task:
 	
 	def create_session(self):
 		session_conf = tf.ConfigProto(
+				intra_op_parallelism_threads=8,
 				allow_soft_placement=True,
 				log_device_placement=False)
 		return tf.Session(config=session_conf)

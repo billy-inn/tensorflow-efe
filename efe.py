@@ -29,15 +29,15 @@ class TransE_L2(Model):
 		self.pred = - l2_loss(self.e1 + self.r - self.e2)
 
 	def add_loss_op(self):
+		normalized_entity_embedding = tf.nn.l2_normalize(self.entity_embedding, -1)
+		e1 = tf.nn.embedding_lookup(normalized_entity_embedding, self.heads)
+		e2 = tf.nn.embedding_lookup(normalized_entity_embedding, self.tails)
+
 		pos_size, neg_size = self.batch_size, self.batch_size * self.neg_ratio
-		e1_pos, e1_neg = tf.split(self.e1, [pos_size, neg_size])
-		e2_pos, e2_neg = tf.split(self.e2, [pos_size, neg_size])
+		e1_pos, e1_neg = tf.split(e1, [pos_size, neg_size])
+		e2_pos, e2_neg = tf.split(e2, [pos_size, neg_size])
 		r_pos, r_neg = tf.split(self.r, [pos_size, neg_size])
 
 		losses = tf.maximum(0.0, self.margin + l2_loss(e1_pos + r_pos - e2_pos) \
 				- tf.reduce_mean(tf.reshape(l2_loss(e1_neg + r_neg - e2_neg), (self.batch_size, self.neg_ratio)), axis=-1))
 		self.loss = tf.reduce_mean(losses)
-
-	def action_before_update(self):
-		self.entity_embedding = tf.nn.l2_normalize(self.entity_embedding, dim=-1)
-

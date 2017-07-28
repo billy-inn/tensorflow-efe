@@ -44,29 +44,23 @@ class Model(object):
 
 	def add_prediction_op(self):
 		"""
-		Define the prediction operator: self.pred
+		Define the prediction operator: self.pred.
 		"""
 		raise NotImplementedError("Each Model must re-implement this method.")
 
 	def add_loss_op(self):
 		"""
-		Define the loss operator: self.loss
+		Define the loss operator: self.loss.
 		"""
 		raise NotImplementedError("Each Model must re-implement this method.")
 
 	def add_training_op(self):
 		"""
-		Define the training operator: self.train_op
+		Define the training operator: self.train_op.
 		"""
 		optimizer = tf.train.AdamOptimizer(self.lr)
 		self.grads_and_vars = optimizer.compute_gradients(self.loss)
 		self.train_op = optimizer.apply_gradients(self.grads_and_vars, global_step=self.global_step)
-
-	def action_before_update(self):
-		"""
-		(Optional) Define actions before updating the embeddings. For example, normalization in TransE model. 
-		"""
-		pass
 
 	def train_on_batch(self, sess, input_batch):
 		feed = self.create_feed_dict(**input_batch)
@@ -93,7 +87,6 @@ class Model(object):
 		best_res = None
 		for i in range(self.max_iter):
 			input_batch = train_batch_loader()
-			self.action_before_update()
 			self.train_on_batch(sess, input_batch)
 			current_step = tf.train.global_step(sess, self.global_step)
 			if (current_step % self.valid_every == 0) and (valid_triples is not None):
@@ -117,3 +110,4 @@ class Model(object):
 		self.add_prediction_op()
 		self.add_loss_op()
 		self.add_training_op()
+		tf.Graph().finalize()

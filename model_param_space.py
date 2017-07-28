@@ -26,7 +26,7 @@ param_space_best_TransE_L2 = {
 	"margin": 2,
 	"lr": 0.01,
 	"batch_size": 2000,
-	"max_iter": 1000,
+	"max_iter": 500,
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
 	"valid_every": 100,
