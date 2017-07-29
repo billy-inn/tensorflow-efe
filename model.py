@@ -89,7 +89,7 @@ class Model(object):
 			input_batch = train_batch_loader()
 			self.train_on_batch(sess, input_batch)
 			current_step = tf.train.global_step(sess, self.global_step)
-			if (current_step % self.valid_every == 0) and (valid_triples is not None):
+			if (self.valid_every != 0) and (current_step % self.valid_every == 0) and (valid_triples is not None):
 				print("\nValidation:")
 				res = scorer.compute_scores(pred_func, valid_triples)
 				print("Raw MRR {:g}, Filtered MRR {:g}".format(res.raw_mrr, res.mrr))

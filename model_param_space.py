@@ -8,7 +8,7 @@ from hyperopt import hp
 # - max_iter
 # - neg_ratio
 # - contiguous_sampling
-# - valid_every
+# - valid_every: set it to 0 to enable early stopping
 
 param_space_TransE_L2 = {
 	"embedding_size": hp.quniform("embedding_size", 10, 200, 10),
@@ -22,14 +22,14 @@ param_space_TransE_L2 = {
 }
 
 param_space_best_TransE_L2 = {
-	"embedding_size": 100,
-	"margin": 2,
+	"embedding_size": 200,
+	"margin": 0.5,
 	"lr": 0.01,
 	"batch_size": 2000,
-	"max_iter": 500,
+	"max_iter": 1000,
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
-	"valid_every": 100,
+	"valid_every": 0,
 }
 
 param_space_dict = {

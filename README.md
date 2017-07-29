@@ -25,9 +25,9 @@ Add hyperparameters dict and its identifier in [model_param_space.py](https://gi
 
 #### Search optimal hyperparameters
 
-`python task.py -m [model_name] -d [data_name] -e [max_evals]`
+`python task.py -m [model_name] -d [data_name] -e [max_evals] -c [cv_runs]`
 
-*model\_name* is the identifier defined in the [model_param_space.py](https://github.com/billy-inn/tensorflow-efe/blob/master/model_param_space.py). *data\_name* is either **wn18** or **fb15k**. *max\_evals* is the maximum runs to search the hyperparameters. 
+*model\_name* is the identifier defined in the [model_param_space.py](https://github.com/billy-inn/tensorflow-efe/blob/master/model_param_space.py). *data\_name* is either **wn18** or **fb15k**. *max\_evals* is the maximum runs to search the hyperparameters, default: 100. *cv\_runs* is the number of runs for the cross validation, default: 3. 
 
 The search process and result are stored in `log` folder.
 

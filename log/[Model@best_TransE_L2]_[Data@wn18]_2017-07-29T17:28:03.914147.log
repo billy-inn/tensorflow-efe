@@ -1,0 +1,14 @@
+[2017-07-29 17:28:03,923] INFO: tpe_transform took 0.000548 seconds
+[2017-07-29 17:28:03,923] INFO: TPE using 0 trials
+[2017-07-29 17:28:05,320] INFO: ==================================================
+[2017-07-29 17:28:05,320] INFO: Params
+[2017-07-29 17:28:05,320] INFO:       batch_size: 2000
+[2017-07-29 17:28:05,320] INFO:       contiguous_sampling: False
+[2017-07-29 17:28:05,320] INFO:       embedding_size: 200
+[2017-07-29 17:28:05,320] INFO:       lr: 0.01
+[2017-07-29 17:28:05,320] INFO:       margin: 0.5
+[2017-07-29 17:28:05,320] INFO:       max_iter: 1000
+[2017-07-29 17:28:05,320] INFO:       neg_ratio: 1
+[2017-07-29 17:28:05,320] INFO:       valid_every: 0
+[2017-07-29 17:28:05,320] INFO: Results
+[2017-07-29 17:28:05,320] INFO: 		Run		Raw MRR		Filtered MRR
