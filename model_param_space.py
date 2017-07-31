@@ -10,7 +10,7 @@ from hyperopt import hp
 # - contiguous_sampling
 # - valid_every: set it to 0 to enable early stopping
 
-param_space_TransE_L2 = {
+param_space_TransE = {
 	"embedding_size": 200,
 	"margin": hp.quniform("margin", 0.1, 1, 0.1),
 	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-2), 1e-3),
@@ -32,9 +32,22 @@ param_space_best_TransE_L2_wn18 = {
 	"valid_every": 0,
 }
 
+param_space_best_TransE_L1_fb15k = {
+	"embedding_size": 100,
+	"margin": 2.0,
+	"lr": 0.01,
+	"batch_size": 5000,
+	"max_iter": 2000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 0,
+}
+
 param_space_dict = {
-	"TransE_L2": param_space_TransE_L2,
+	"TransE_L2": param_space_TransE,
+	"TransE_L1": param_space_TransE,
 	"best_TransE_L2_wn18": param_space_best_TransE_L2_wn18,
+	"best_TransE_L1_fb15k": param_space_best_TransE_L1_fb15k,
 }
 
 int_params = [

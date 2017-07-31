@@ -48,6 +48,8 @@ class Task:
 	def _get_model(self):
 		if "TransE_L2" in self.model_name:
 			return TransE_L2(self.n_entities, self.n_relations, self.hparams)
+		elif "TransE_L1" in self.model_name:
+			return TransE_L1(self.n_entities, self.n_relations, self.hparams)
 		else:
 			raise AttributeError("Invalid model name! (Check model_param_space.py)")
 	

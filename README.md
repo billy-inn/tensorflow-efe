@@ -44,7 +44,7 @@ Train on the given hyperparameter setting and give the result for the test set.
 <table>
 <tr>
    <th>Model</th>
-   <th colspan="5">WN11</th>
+   <th colspan="5">WN18</th>
    <th colspan="5">FB15K</th>
 </tr>
    <tr>

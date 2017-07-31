@@ -47,3 +47,14 @@ class TransE_L2(Model):
 		_, step, loss = sess.run([self.train_op, self.global_step, self.loss], feed_dict=feed)
 		time_str = datetime.datetime.now().isoformat()
 		print("{}: step {}, loss {:g}".format(time_str, step, loss))
+
+class TransE_L1(TransE_L2):
+	def add_loss_op(self):
+		pos_size, neg_size = self.batch_size, self.batch_size * self.neg_ratio
+		e1_pos, e1_neg = tf.split(self.e1, [pos_size, neg_size])
+		e2_pos, e2_neg = tf.split(self.e2, [pos_size, neg_size])
+		r_pos, r_neg = tf.split(self.r, [pos_size, neg_size])
+
+		losses = tf.maximum(0.0, self.margin + l1_loss(e1_pos + r_pos - e2_pos) \
+				- tf.reduce_mean(tf.reshape(l1_loss(e1_neg + r_neg - e2_neg), (self.batch_size, self.neg_ratio)), axis=-1))
+		self.loss = tf.reduce_mean(losses)
