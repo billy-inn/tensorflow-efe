@@ -19,7 +19,10 @@ class TransE_L2(Model):
 		minVal = -6/np.sqrt(self.embedding_size)
 		maxVal = -minVal
 		self.entity_embedding = tf.Variable(tf.random_uniform([self.n_entities, self.embedding_size], minVal, maxVal, seed=config.RANDOM_SEED), dtype=tf.float32, name="entity_embedding")
-		self.relation_embedding = tf.Variable(tf.random_uniform([self.n_relations, self.embedding_size], minVal, maxVal, seed=config.RANDOM_SEED), dtype=tf.float32, name="relation_embedding")
+		self.relation_embedding = tf.Variable(tf.nn.l2_normalize(tf.random_uniform([self.n_relations, self.embedding_size], minVal, maxVal, seed=config.RANDOM_SEED), -1), dtype=tf.float32, name="relation_embedding")
+
+		normalized_entity_embedding = tf.nn.l2_normalize(self.entity_embedding, -1)
+		self.normalization = self.entity_embedding.assign(normalized_entity_embedding)
 
 	def add_prediction_op(self):
 		self.e1 = tf.nn.embedding_lookup(self.entity_embedding, self.heads)
@@ -29,15 +32,18 @@ class TransE_L2(Model):
 		self.pred = - l2_loss(self.e1 + self.r - self.e2)
 
 	def add_loss_op(self):
-		normalized_entity_embedding = tf.nn.l2_normalize(self.entity_embedding, -1)
-		e1 = tf.nn.embedding_lookup(normalized_entity_embedding, self.heads)
-		e2 = tf.nn.embedding_lookup(normalized_entity_embedding, self.tails)
-
 		pos_size, neg_size = self.batch_size, self.batch_size * self.neg_ratio
-		e1_pos, e1_neg = tf.split(e1, [pos_size, neg_size])
-		e2_pos, e2_neg = tf.split(e2, [pos_size, neg_size])
+		e1_pos, e1_neg = tf.split(self.e1, [pos_size, neg_size])
+		e2_pos, e2_neg = tf.split(self.e2, [pos_size, neg_size])
 		r_pos, r_neg = tf.split(self.r, [pos_size, neg_size])
 
 		losses = tf.maximum(0.0, self.margin + l2_loss(e1_pos + r_pos - e2_pos) \
 				- tf.reduce_mean(tf.reshape(l2_loss(e1_neg + r_neg - e2_neg), (self.batch_size, self.neg_ratio)), axis=-1))
 		self.loss = tf.reduce_mean(losses)
+	
+	def train_on_batch(self, sess, input_batch):
+		feed = self.create_feed_dict(**input_batch)
+		sess.run(self.normalization)
+		_, step, loss = sess.run([self.train_op, self.global_step, self.loss], feed_dict=feed)
+		time_str = datetime.datetime.now().isoformat()
+		print("{}: step {}, loss {:g}".format(time_str, step, loss))
