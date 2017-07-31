@@ -15,7 +15,9 @@ All specific models are implemented in [efe.py](https://github.com/billy-inn/ten
 
 | Model | Implementations | Reference |
 | :---- | :-------------- | :-------- |
-| TransE | L2; L1 |[Bordes et al. (NIPS 2013)](https://www.utc.fr/~bordesan/dokuwiki/_media/en/transe_nips13.pdf)
+| TransE | TransE\_L2; TransE\_L1 |[Bordes et al. (NIPS 2013)](https://www.utc.fr/~bordesan/dokuwiki/_media/en/transe_nips13.pdf) |
+| DistMult | DistMult; DistMult\_Logistic | [Yang et al. (ICLR 2015)](https://arxiv.org/pdf/1412.6575.pdf)
+| ComplEx | Complex; Complex\_Logistic | [Trouillon et al. (ICML 2016)](https://arxiv.org/pdf/1606.06357.pdf)
 
 ### Hyperparameters
 
@@ -36,6 +38,81 @@ The search process and result are stored in `log` folder.
 `python train.py -m [model_name] -d [data_name]`
 
 Train on the given hyperparameter setting and give the result for the test set.
+
+### Performance
+
+<table>
+<tr>
+   <th>Model</th>
+   <th colspan="5">WN11</th>
+   <th colspan="5">FB15K</th>
+</tr>
+   <tr>
+   <th></th>
+   <th>Filtered MRR</th>
+   <th>Raw MRR</th>
+   <th>Hits@1 </th>
+   <th>Hits@3 </th>
+   <th>Hits@10 </th>
+   <th>Filtered MRR</th>
+   <th>Raw MRR</th>
+   <th>Hits@1 </th>
+   <th>Hits@3 </th>
+   <th>Hits@10 </th>
+   </tr>
+   <tr>
+   <td>TransE</td>
+   <td>0.454</td>
+   <td>0.338</td>
+   <td>0.089</td>
+   <td>0.814</td>
+   <td>0.954</td>
+   <td>-</td>
+   <td>-</td>
+   <td>-</td>
+   <td>-</td>
+   <td>-</td>    
+   </tr>
+   <!--<tr>
+   <td>DistMult</td>
+   <td>0.835</td>
+   <td>0.561</td>
+   <td>0.753</td>
+   <td>0.913</td>
+   <td>0.937</td>
+   <td>0.651</td>
+   <td>0.237</td>
+   <td>0.544</td>
+   <td>0.728</td>
+   <td>0.825</td>
+   </tr>
+   <tr>
+   <td>HolE</td>
+   <td><b>0.62</b></td>
+   <td><b>0.94</b></td>
+   <td>0.928</td>
+   <td><b>0.941</b></td>
+   <td><b>0.944</b></td>
+   <td>0.21</td>
+   <td>0.46</td>
+   <td>33.45</td>
+   <td>53.63</td>
+   <td>67.54</td>
+   </tr>
+   <tr>
+   <td>ComplEx</td>
+   <td>0.581</td>
+   <td><b>0.94</b></td>   
+   <td><b>0.937</b></td>
+   <td><b>0.941</b></td>
+   <td><b>0.944</b></td>
+   <td><b>0.672</b></td>
+   <td>0.235</td>
+   <td><b>0.571</b></td>
+   <td><b>0.746</b></td>
+   <td><b>0.832</b></td>
+   </tr>-->
+</table>
 
 ### License
 
