@@ -8,7 +8,7 @@ import logging
 from model_param_space import param_space_dict
 
 def train(model_name, data_name, params_dict, logger):
-	task = Task(model_name, data_name, params_dict, logger)
+	task = Task(model_name, data_name, 1, params_dict, logger)
 	task.refit()
 
 def parse_args(parser):

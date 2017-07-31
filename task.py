@@ -25,12 +25,14 @@ class Task:
 			self.test_triples = pd.read_csv(config.WN18_TEST, names=["e1", "r", "e2"]).as_matrix()
 			self.e2id = load_dict_from_txt(config.WN18_E2ID)
 			self.r2id = load_dict_from_txt(config.WN18_R2ID)
-		else:
+		elif data_name == "fb15k":
 			self.train_triples = pd.read_csv(config.FB15K_TRAIN, names=["e1", "r", "e2"]).as_matrix()
 			self.valid_triples = pd.read_csv(config.FB15K_VALID, names=["e1", "r", "e2"]).as_matrix()
 			self.test_triples = pd.read_csv(config.FB15K_TEST, names=["e1", "r", "e2"]).as_matrix()
 			self.e2id = load_dict_from_txt(config.FB15K_E2ID)
 			self.r2id = load_dict_from_txt(config.FB15K_R2ID)
+		else:
+			raise AttributeError("Invalid data name! (Valid data name: wn18, fb15k)")
 
 		self.model_name = model_name
 		self.cv_runs = cv_runs
@@ -46,6 +48,8 @@ class Task:
 	def _get_model(self):
 		if "TransE_L2" in self.model_name:
 			return TransE_L2(self.n_entities, self.n_relations, self.hparams)
+		else:
+			raise AttributeError("Invalid model name! (Check model_param_space.py)")
 	
 	def _print_param_dict(self, d, prefix="      ", incr_prefix="      "):
 		for k, v in sorted(d.items()):

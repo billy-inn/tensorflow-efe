@@ -11,30 +11,30 @@ from hyperopt import hp
 # - valid_every: set it to 0 to enable early stopping
 
 param_space_TransE_L2 = {
-	"embedding_size": hp.quniform("embedding_size", 10, 200, 10),
-	"margin": hp.quniform("margin", 0.5, 5, 0.5),
-	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-1), 1e-3),
+	"embedding_size": 200,
+	"margin": hp.quniform("margin", 0.1, 1, 0.1),
+	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-2), 1e-3),
 	"batch_size": 2000,
-	"max_iter": hp.quniform("max_iter", 1000, 2000, 100),
+	"max_iter": 100000,
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
-	"valid_every": 100,
+	"valid_every": 1000,
 }
 
-param_space_best_TransE_L2 = {
+param_space_best_TransE_L2_wn18 = {
 	"embedding_size": 200,
 	"margin": 0.5,
-	"lr": 0.01,
+	"lr": 0.001,
 	"batch_size": 2000,
-	"max_iter": 5000,
-	"neg_ratio": 1,
+	"max_iter": 2000,
+	"neg_ratio": 10,
 	"contiguous_sampling": False,
 	"valid_every": 0,
 }
 
 param_space_dict = {
 	"TransE_L2": param_space_TransE_L2,
-	"best_TransE_L2": param_space_best_TransE_L2,
+	"best_TransE_L2_wn18": param_space_best_TransE_L2_wn18,
 }
 
 int_params = [
@@ -43,7 +43,7 @@ int_params = [
 
 class ModelParamSpace:
 	def __init__(self, learner_name):
-		s = "Wrong learner name!"
+		s = "Invalid model name! (Check model_param_space.py)"
 		assert learner_name in param_space_dict, s
 		self.learner_name = learner_name
 	
