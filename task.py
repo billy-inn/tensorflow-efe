@@ -46,10 +46,18 @@ class Task:
 		self.model = self._get_model() 
 
 	def _get_model(self):
+		args = [self.n_entities, self.n_relations, self.hparams]
 		if "TransE_L2" in self.model_name:
-			return TransE_L2(self.n_entities, self.n_relations, self.hparams)
+			return TransE_L2(*args)
 		elif "TransE_L1" in self.model_name:
-			return TransE_L1(self.n_entities, self.n_relations, self.hparams)
+			return TransE_L1(*args)
+		elif "DistMult" in self.model_name:
+			if "tanh" in self.model_name:
+				return DistMult_tanh(*args)
+			elif "Logistic" in self.model_name:
+				return DistMult_Logistic(*args)
+			else:
+				return DistMult(*args)
 		else:
 			raise AttributeError("Invalid model name! (Check model_param_space.py)")
 	

@@ -43,11 +43,39 @@ param_space_best_TransE_L1_fb15k = {
 	"valid_every": 0,
 }
 
+param_space_DistMult = {
+	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
+	"margin": hp.quniform("margin", 0.5, 5, 0.5),
+	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-1), 1e-3),
+	"batch_size": 5000,
+	"max_iter": 100000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 1000,
+}
+
+param_space_best_DistMult = {
+	"embedding_size": 200,
+	"margin": 1.0,
+	"lr": 0.01,
+	"batch_size": 2000,
+	"max_iter": 2000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 0,
+}
+
 param_space_dict = {
 	"TransE_L2": param_space_TransE,
 	"TransE_L1": param_space_TransE,
 	"best_TransE_L2_wn18": param_space_best_TransE_L2_wn18,
 	"best_TransE_L1_fb15k": param_space_best_TransE_L1_fb15k,
+	"DistMult": param_space_DistMult,
+	"DistMult_tanh": param_space_DistMult,
+	"DistMult_Logisitic": param_space_DistMult,
+	"best_DistMult": param_space_best_DistMult,
+	"best_DistMult_tanh": param_space_best_DistMult,
+	"best_DistMult_Logistic": param_space_best_DistMult,
 }
 
 int_params = [

@@ -60,7 +60,7 @@ class TransE_L1(TransE_L2):
 
 class DistMult(Model):
 	def __init__(self, n_entities, n_relations, hparams):
-		super(TransE_L2, self).__init__(n_entities, n_relations, hparams)
+		super(DistMult, self).__init__(n_entities, n_relations, hparams)
 		self.margin = hparams.margin
 		self.build()
 
@@ -77,10 +77,28 @@ class DistMult(Model):
 
 	def add_loss_op(self):
 		pos_size, neg_size = self.batch_size, self.batch_size * self.neg_ratio
-		e1_pos, e1_neg = tf.split(self.e1, [pos_size, neg_size])
-		e2_pos, e2_neg = tf.split(self.e2, [pos_size, neg_size])
-		r_pos, r_neg = tf.split(self.r, [pos_size, neg_size])
+		score_pos, score_neg = tf.split(self.pred, [pos_size, neg_size])
 
-		losses = tf.maximum(0.0, self.margin +  \
-				- tf.reduce_mean(tf.reshape(l1_loss(e1_neg + r_neg - e2_neg), (self.batch_size, self.neg_ratio)), axis=-1))
+		losses = tf.maximum(0.0, self.margin - score_pos \
+				+ tf.reduce_mean(tf.reshape(score_neg, (self.batch_size, self.neg_ratio)), axis=-1))
+		self.loss = tf.reduce_mean(losses)
+
+class DistMult_tanh(DistMult):
+	def add_prediction_op(self):
+		self.e1 = tf.tanh(tf.nn.embedding_lookup(self.entity_embedding, self.heads))
+		self.e2 = tf.tanh(tf.nn.embedding_lookup(self.entity_embedding, self.tails))
+		self.r = tf.nn.embedding_lookup(self.relation_embedding, self.relations)
+
+		self.pred = tf.reduce_sum(self.e1 * self.r * self.e2, -1)
+
+class DistMult_Logistic(DistMult):
+	def add_prediction_op(self):
+		self.e1 = tf.nn.embedding_lookup(self.entity_embedding, self.heads)
+		self.e2 = tf.nn.embedding_lookup(self.entity_embedding, self.tails)
+		self.r = tf.nn.embedding_lookup(self.relation_embedding, self.relations)
+
+		self.pred = tf.nn.sigmoid(tf.reduce_sum(self.e1 * self.r * self.e2, -1))
+
+	def add_loss_op(self):
+		losses = tf.nn.softplus(-self.labels * tf.reduce_sum(self.e1 * self.r * self.e1, -1))
 		self.loss = tf.reduce_mean(losses)
