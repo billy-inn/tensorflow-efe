@@ -11,10 +11,10 @@ from hyperopt import hp
 # - valid_every: set it to 0 to enable early stopping
 
 param_space_TransE = {
-	"embedding_size": 200,
-	"margin": hp.quniform("margin", 0.1, 1, 0.1),
-	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-2), 1e-3),
-	"batch_size": 2000,
+	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
+	"margin": hp.quniform("margin", 0.5, 5, 0.5),
+	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-1), 1e-3),
+	"batch_size": 5000,
 	"max_iter": 100000,
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
