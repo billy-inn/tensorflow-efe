@@ -16,8 +16,9 @@ All specific models are implemented in [efe.py](https://github.com/billy-inn/ten
 | Model | Implementations | Reference |
 | :---- | :-------------- | :-------- |
 | TransE | TransE\_L2; TransE\_L1 |[Bordes et al. (NIPS 2013)](https://www.utc.fr/~bordesan/dokuwiki/_media/en/transe_nips13.pdf) |
+| NTN | | [Socher et al. (NIPS 2013)](https://nlp.stanford.edu/pubs/SocherChenManningNg_NIPS2013.pdf) |
 | DistMult | DistMult; DistMult\_tanh; DistMult\_Logistic | [Yang et al. (ICLR 2015)](https://arxiv.org/pdf/1412.6575.pdf)
-| ComplEx | Complex; Complex\_Logistic | [Trouillon et al. (ICML 2016)](https://arxiv.org/pdf/1606.06357.pdf)
+| ComplEx | Complex; Complex\_Logistic | [Trouillon et al. (ICML 2016)](https://arxiv.org/pdf/1606.06357.pdf) |
 
 ### Hyperparameters
 

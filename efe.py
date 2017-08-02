@@ -62,6 +62,7 @@ class DistMult(Model):
 	def __init__(self, n_entities, n_relations, hparams):
 		super(DistMult, self).__init__(n_entities, n_relations, hparams)
 		self.margin = hparams.margin
+		self.l2_reg_lambda = hparams.l2_reg_lambda
 		self.build()
 
 	def add_params(self):
@@ -81,7 +82,10 @@ class DistMult(Model):
 
 		losses = tf.maximum(0.0, self.margin - score_pos \
 				+ tf.reduce_mean(tf.reshape(score_neg, (self.batch_size, self.neg_ratio)), axis=-1))
-		self.loss = tf.reduce_mean(losses)
+		self.l2_loss = tf.reduce_mean(tf.square(self.e1)) + \
+				tf.reduce_mean(tf.square(self.e2)) + \
+				tf.reduce_mean(tf.square(self.r))
+		self.loss = tf.reduce_mean(losses) + self.l2_loss
 
 class DistMult_tanh(DistMult):
 	def add_prediction_op(self):
@@ -101,4 +105,7 @@ class DistMult_Logistic(DistMult):
 
 	def add_loss_op(self):
 		losses = tf.nn.softplus(-self.labels * tf.reduce_sum(self.e1 * self.r * self.e1, -1))
-		self.loss = tf.reduce_mean(losses)
+		self.l2_loss = tf.reduce_mean(tf.squrare(self.e1)) + \
+				tf.reduce_mean(tf.square(self.e2)) + \
+				tf.reduce_mean(tf.square(self.r))
+		self.loss = tf.reduce_mean(losses) + self.l2_loss

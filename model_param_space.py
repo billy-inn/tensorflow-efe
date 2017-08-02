@@ -46,6 +46,7 @@ param_space_best_TransE_L1_fb15k = {
 param_space_DistMult = {
 	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
 	"margin": hp.quniform("margin", 0.5, 5, 0.5),
+	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-3), np.log(1e-2), 1e-3),
 	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-1), 1e-3),
 	"batch_size": 5000,
 	"max_iter": 100000,
@@ -57,6 +58,7 @@ param_space_DistMult = {
 param_space_best_DistMult = {
 	"embedding_size": 200,
 	"margin": 1.0,
+	"l2_reg_lambda": 0.003,
 	"lr": 0.01,
 	"batch_size": 2000,
 	"max_iter": 2000,
