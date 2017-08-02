@@ -104,8 +104,8 @@ class DistMult_Logistic(DistMult):
 		self.pred = tf.nn.sigmoid(tf.reduce_sum(self.e1 * self.r * self.e2, -1))
 
 	def add_loss_op(self):
-		losses = tf.nn.softplus(-self.labels * tf.reduce_sum(self.e1 * self.r * self.e1, -1))
-		self.l2_loss = tf.reduce_mean(tf.squrare(self.e1)) + \
+		losses = tf.nn.softplus(-self.labels * tf.reduce_sum(self.e1 * self.r * self.e2, -1))
+		self.l2_loss = tf.reduce_mean(tf.square(self.e1)) + \
 				tf.reduce_mean(tf.square(self.e2)) + \
 				tf.reduce_mean(tf.square(self.r))
 		self.loss = tf.reduce_mean(losses) + self.l2_loss

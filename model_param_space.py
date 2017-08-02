@@ -74,7 +74,7 @@ param_space_dict = {
 	"best_TransE_L1_fb15k": param_space_best_TransE_L1_fb15k,
 	"DistMult": param_space_DistMult,
 	"DistMult_tanh": param_space_DistMult,
-	"DistMult_Logisitic": param_space_DistMult,
+	"DistMult_Logistic": param_space_DistMult,
 	"best_DistMult": param_space_best_DistMult,
 	"best_DistMult_tanh": param_space_best_DistMult,
 	"best_DistMult_Logistic": param_space_best_DistMult,
