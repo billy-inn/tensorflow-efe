@@ -37,7 +37,7 @@ param_space_best_TransE_L1_fb15k = {
 	"margin": 3.5,
 	"lr": 0.001,
 	"batch_size": 5000,
-	"max_iter": 10000,
+	"max_iter": 15000,
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
 	"valid_every": 0,

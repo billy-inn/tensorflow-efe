@@ -68,11 +68,11 @@ Train on the given hyperparameter setting and give the result for the test set.
    <td>0.089</td>
    <td>0.814</td>
    <td>0.954</td>
-   <td>-</td>
-   <td>-</td>
-   <td>-</td>
-   <td>-</td>
-   <td>-</td>    
+   <td>0.407</td>
+   <td>0.247</td>
+   <td>0.272</td>
+   <td>0.480</td>
+   <td>0.657</td>    
    </tr>
    <!--<tr>
    <td>DistMult</td>
