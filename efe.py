@@ -85,7 +85,7 @@ class DistMult(Model):
 
 		losses = tf.maximum(0.0, self.margin - score_pos \
 				+ tf.reduce_mean(tf.reshape(score_neg, (self.batch_size, self.neg_ratio)), axis=-1))
-		self.l2_loss = tf.nn.l2_loss(self.r)
+		#self.l2_loss = tf.nn.l2_loss(self.r)
 		self.loss = tf.reduce_mean(losses) + self.l2_reg_lambda * self.l2_loss
 
 	def train_on_batch(self, sess, input_batch):
@@ -106,7 +106,6 @@ class DistMult_tanh(DistMult):
 class DistMult_Logistic(Model):
 	def __init__(self, n_entities, n_relations, hparams):
 		super(DistMult_Logistic, self).__init__(n_entities, n_relations, hparams)
-		self.margin = hparams.margin
 		self.l2_reg_lambda = hparams.l2_reg_lambda
 		self.build()
 
@@ -127,3 +126,7 @@ class DistMult_Logistic(Model):
 				tf.reduce_mean(tf.square(self.e2)) + \
 				tf.reduce_mean(tf.square(self.r))
 		self.loss = tf.reduce_mean(losses) + self.l2_reg_lambda * self.l2_loss
+
+class NTN(Model):
+	def __init__(self, n_entities, n_relations, hparams):
+		super(NTN, self).__init__(n_entities, n_relations, hparams)

@@ -60,6 +60,7 @@ class Model(object):
 		"""
 		optimizer = tf.train.AdamOptimizer(self.lr)
 		self.grads_and_vars = optimizer.compute_gradients(self.loss)
+		self.grads_and_vars = [(tf.clip_by_norm(g, 1.), v) for g, v in self.grads_and_vars]
 		self.train_op = optimizer.apply_gradients(self.grads_and_vars, global_step=self.global_step)
 
 	def train_on_batch(self, sess, input_batch):

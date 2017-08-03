@@ -51,12 +51,10 @@ Train on the given hyperparameter setting and give the result for the test set.
    <tr>
    <th></th>
    <th>Filtered MRR</th>
-   <th>Raw MRR</th>
    <th>Hits@1 </th>
    <th>Hits@3 </th>
    <th>Hits@10 </th>
    <th>Filtered MRR</th>
-   <th>Raw MRR</th>
    <th>Hits@1 </th>
    <th>Hits@3 </th>
    <th>Hits@10 </th>
@@ -64,12 +62,10 @@ Train on the given hyperparameter setting and give the result for the test set.
    <tr>
    <td>TransE</td>
    <td>0.454</td>
-   <td>0.338</td>
    <td>0.089</td>
    <td>0.814</td>
    <td>0.954</td>
    <td>0.407</td>
-   <td>0.247</td>
    <td>0.272</td>
    <td>0.480</td>
    <td>0.657</td>    
