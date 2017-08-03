@@ -87,13 +87,12 @@ class Task:
 		for i in range(self.cv_runs):
 			sess = self.create_session()
 			sess.run(tf.global_variables_initializer())
-			res = self.model.fit(sess, self.train_triples, self.valid_triples, self.scorer)
+			self.model.fit(sess, self.train_triples, self.valid_triples)
 			
 			def pred_func(test_triples):
 				return self.model.predict(sess, test_triples)
 
-			if res is None:
-				res = self.scorer.compute_scores(pred_func, self.valid_triples)
+			res = self.scorer.compute_scores(pred_func, self.valid_triples)
 			self.logger.info("\t\t%d\t\t%f\t\t%f" % (i, res.raw_mrr, res.mrr))
 			cv_res.append(res)
 			sess.close()

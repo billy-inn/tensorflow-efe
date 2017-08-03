@@ -69,6 +69,18 @@ class Model(object):
 		time_str = datetime.datetime.now().isoformat()
 		print("{}: step {}, loss {:g}".format(time_str, step, loss))
 	
+	def validate(self, sess, valid_triples):
+		valid_batch_loader = Batch_Loader(valid_triples, self.n_entities, batch_size=self.batch_size, neg_ratio=self.neg_ratio, contiguous_sampling=True)
+		total_loss = 0.0
+		total_len = 0
+		for i in range(len(valid_triples)//self.batch_size + 1):
+			input_batch = valid_batch_loader()
+			feed = self.create_feed_dict(**input_batch)
+			loss = sess.run(self.loss, feed_dict=feed)
+			total_loss += loss * len(input_batch["labels"])
+			total_len += len(input_batch["labels"])
+		return total_loss/total_len
+	
 	def predict(self, sess, test_triples):
 		test_batch_loader = Batch_Loader(test_triples, self.n_entities, batch_size=5000, neg_ratio=0, contiguous_sampling=True)
 		preds = []
@@ -79,31 +91,26 @@ class Model(object):
 			preds = np.concatenate([preds, pred])
 		return preds
 
-	def fit(self, sess, train_triples, valid_triples=None, scorer=None):
+	def fit(self, sess, train_triples, valid_triples=None):
 		train_batch_loader = Batch_Loader(train_triples, self.n_entities, batch_size=self.batch_size, neg_ratio=self.neg_ratio, contiguous_sampling=self.contiguous_sampling)
-		def pred_func(test_triples):
-			return self.predict(sess, test_triples)
-
-		best_mrr = -1
-		best_res = None
+		best_step = 0
+		best_loss = 1e10
 		for i in range(self.max_iter):
 			input_batch = train_batch_loader()
 			self.train_on_batch(sess, input_batch)
 			current_step = tf.train.global_step(sess, self.global_step)
 			if (self.valid_every != 0) and (current_step % self.valid_every == 0) and (valid_triples is not None):
 				print("\nValidation:")
-				res = scorer.compute_scores(pred_func, valid_triples)
-				print("Raw MRR {:g}, Filtered MRR {:g}".format(res.raw_mrr, res.mrr))
-				print("Raw: Hits@1 {:g} Hits@3 {:g} Hits@10 {:g}".format(res.raw_hits_at1, res.raw_hits_at3, res.raw_hits_at10))
-				print("Filtered: Hits@1 {:g} Hits@3 {:g} Hits@10 {:g}".format(res.hits_at1, res.hits_at3, res.hits_at10))
-				if best_mrr >= res.mrr:
-					print("Validation filtered MRR decreased, stopping here!")
-					break
-				else:
-					best_mrr = res.mrr
-					best_res = res
+				print("previous best loss: %f step %d" % (best_step, best_loss))
+				loss = self.validate(sess, valid_triples)
+				print("validation@%d loss: %f" % loss)
 				print("")
-		return best_res
+				if best_loss > loss:
+					best_step = current_step
+					best_loss = loss
+				elif current_step - best_step > 1000:
+					break
+		return best_step, best_loss
 	
 	def build(self):
 		self.add_placeholders()

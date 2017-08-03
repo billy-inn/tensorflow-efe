@@ -29,7 +29,7 @@ param_space_best_TransE_L2_wn18 = {
 	"max_iter": 2000,
 	"neg_ratio": 10,
 	"contiguous_sampling": False,
-	"valid_every": 0,
+	"valid_every": 100,
 }
 
 param_space_best_TransE_L1_fb15k = {
