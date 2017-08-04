@@ -91,26 +91,28 @@ class Model(object):
 			preds = np.concatenate([preds, pred])
 		return preds
 
-	def fit(self, sess, train_triples, valid_triples=None):
+	def fit(self, sess, train_triples, valid_triples=None, scorer=None):
 		train_batch_loader = Batch_Loader(train_triples, self.n_entities, batch_size=self.batch_size, neg_ratio=self.neg_ratio, contiguous_sampling=self.contiguous_sampling)
-		best_step = 0
-		best_loss = 1e10
+		best_mrr = -1
+		best_res = None
 		for i in range(self.max_iter):
 			input_batch = train_batch_loader()
 			self.train_on_batch(sess, input_batch)
 			current_step = tf.train.global_step(sess, self.global_step)
 			if (self.valid_every != 0) and (current_step % self.valid_every == 0) and (valid_triples is not None):
 				print("\nValidation:")
-				print("previous best loss: %f step %d" % (best_step, best_loss))
-				loss = self.validate(sess, valid_triples)
-				print("validation@%d loss: %f" % loss)
-				print("")
-				if best_loss > loss:
-					best_step = current_step
-					best_loss = loss
-				elif current_step - best_step > 1000:
+				res = scorer.compute_scores(pred_func, valid_triples)
+				print("Raw MRR {:g}, Filtered MRR {:g}".format(res.raw_mrr, res.mrr))
+				print("Raw: Hits@1 {:g} Hits@3 {:g} Hits@10 {:g}".format(res.raw_hits_at1, res.raw_hits_at3, res.raw_hits_at10))
+				print("Filtered: Hits@1 {:g} Hits@3 {:g} Hits@10 {:g}".format(res.hits_at1, res.hits_at3, res.hits_at10))
+				if best_mrr < res.mrr:
+					best_mrr = res.mrr
+					best_res = res
+				else:
+					print("Validation filtered MRR decreased, stopping here!")
 					break
-		return best_step, best_loss
+				print("")
+		return best_res
 	
 	def build(self):
 		self.add_placeholders()
