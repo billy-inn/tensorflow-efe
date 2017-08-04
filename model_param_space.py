@@ -45,19 +45,17 @@ param_space_best_TransE_L1_fb15k = {
 
 param_space_DistMult = {
 	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
-	"margin": hp.quniform("margin", 0.5, 5, 0.5),
 	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(1e-3), 1e-4),
 	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-1), 1e-3),
 	"batch_size": 5000,
 	"max_iter": 100000,
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
-	"valid_every": 1000,
+	"valid_every": 5000,
 }
 
 param_space_best_DistMult = {
 	"embedding_size": 200,
-	"margin": 1.0,
 	"l2_reg_lambda": 0.003,
 	"lr": 0.1,
 	"batch_size": 2000,
@@ -67,6 +65,30 @@ param_space_best_DistMult = {
 	"valid_every": 0,
 }
 
+param_space_best_NTN = {
+	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
+	"k": 2,
+	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(1e-3), 1e-4),
+	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-1), 1e-3),
+	"batch_size": 2000,
+	"max_iter": 100000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 5000,
+}
+
+param_space_best_NTN = {
+	"embedding_size": 50,
+	"k": 2,
+	"l2_reg_lambda": 0.003,
+	"lr": 0.01,
+	"batch_size": 2000,
+	"max_iter": 2000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 100,
+}
+
 param_space_dict = {
 	"TransE_L2": param_space_TransE,
 	"TransE_L1": param_space_TransE,
@@ -74,14 +96,14 @@ param_space_dict = {
 	"best_TransE_L1_fb15k": param_space_best_TransE_L1_fb15k,
 	"DistMult": param_space_DistMult,
 	"DistMult_tanh": param_space_DistMult,
-	"DistMult_Logistic": param_space_DistMult,
 	"best_DistMult": param_space_best_DistMult,
 	"best_DistMult_tanh": param_space_best_DistMult,
-	"best_DistMult_Logistic": param_space_best_DistMult,
+	"NTN": param_space_NTN,
+	"best_NTN": param_space_best_NTN,
 }
 
 int_params = [
-	"embedding_size", "batch_size", "max_iter", "neg_ratio", "valid_every",
+	"embedding_size", "batch_size", "max_iter", "neg_ratio", "valid_every", "k",
 ]
 
 class ModelParamSpace:

@@ -16,8 +16,8 @@ All specific models are implemented in [efe.py](https://github.com/billy-inn/ten
 | Model | Implementations | Reference |
 | :---- | :-------------- | :-------- |
 | TransE | TransE\_L2; TransE\_L1 |[Bordes et al. (NIPS 2013)](https://www.utc.fr/~bordesan/dokuwiki/_media/en/transe_nips13.pdf) |
-| NTN | | [Socher et al. (NIPS 2013)](https://nlp.stanford.edu/pubs/SocherChenManningNg_NIPS2013.pdf) |
-| DistMult | DistMult; DistMult\_tanh; DistMult\_Logistic | [Yang et al. (ICLR 2015)](https://arxiv.org/pdf/1412.6575.pdf)
+| NTN | NTN | [Socher et al. (NIPS 2013)](https://nlp.stanford.edu/pubs/SocherChenManningNg_NIPS2013.pdf) |
+| DistMult | DistMult; DistMult\_tanh | [Yang et al. (ICLR 2015)](https://arxiv.org/pdf/1412.6575.pdf)
 | ComplEx | Complex; Complex\_Logistic | [Trouillon et al. (ICML 2016)](https://arxiv.org/pdf/1606.06357.pdf) |
 
 ### Hyperparameters
@@ -45,18 +45,16 @@ Train on the given hyperparameter setting and give the result for the test set.
 <table>
 <tr>
    <th>Model</th>
-   <th colspan="5">WN18</th>
-   <th colspan="5">FB15K</th>
+   <th colspan="4">WN18</th>
+   <th colspan="4">FB15K</th>
 </tr>
    <tr>
    <th></th>
    <th>Filtered MRR</th>
-   <th>Raw MRR</th>
    <th>Hits@1 </th>
    <th>Hits@3 </th>
    <th>Hits@10 </th>
    <th>Filtered MRR</th>
-   <th>Raw MRR</th>
    <th>Hits@1 </th>
    <th>Hits@3 </th>
    <th>Hits@10 </th>
@@ -64,25 +62,21 @@ Train on the given hyperparameter setting and give the result for the test set.
    <tr>
    <td>TransE</td>
    <td>0.454</td>
-   <td>0.338</td>
    <td>0.089</td>
    <td>0.814</td>
    <td>0.954</td>
    <td>0.407</td>
-   <td>0.249</td>
    <td>0.272</td>
    <td>0.480</td>
    <td>0.657</td>    
    </tr>
    <!--<tr>
    <td>DistMult</td>
-   <td>0.835</td>
-   <td>0.561</td>
-   <td>0.753</td>
-   <td>0.913</td>
-   <td>0.937</td>
+   <td>0.868</td>
+   <td>0.786</td>
+   <td>0.948</td>
+   <td>0.970</td>
    <td>0.651</td>
-   <td>0.237</td>
    <td>0.544</td>
    <td>0.728</td>
    <td>0.825</td>

@@ -93,6 +93,10 @@ class Model(object):
 
 	def fit(self, sess, train_triples, valid_triples=None, scorer=None):
 		train_batch_loader = Batch_Loader(train_triples, self.n_entities, batch_size=self.batch_size, neg_ratio=self.neg_ratio, contiguous_sampling=self.contiguous_sampling)
+		
+		def pred_func(test_triples):
+			return self.predict(sess, test_triples)
+
 		best_mrr = -1
 		best_res = None
 		for i in range(self.max_iter):

@@ -54,10 +54,10 @@ class Task:
 		elif "DistMult" in self.model_name:
 			if "tanh" in self.model_name:
 				return DistMult_tanh(*args)
-			elif "Logistic" in self.model_name:
-				return DistMult_Logistic(*args)
 			else:
 				return DistMult(*args)
+		elif "NTN" in self.model_name:
+			return NTN(*args)
 		else:
 			raise AttributeError("Invalid model name! (Check model_param_space.py)")
 	
@@ -87,7 +87,7 @@ class Task:
 		for i in range(self.cv_runs):
 			sess = self.create_session()
 			sess.run(tf.global_variables_initializer())
-			res = self.model.fit(sess, self.train_triples, self.valid_triples)
+			res = self.model.fit(sess, self.train_triples, self.valid_triples, self.scorer)
 			
 			def pred_func(test_triples):
 				return self.model.predict(sess, test_triples)
