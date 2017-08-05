@@ -120,7 +120,7 @@ class NTN(Model):
 		g_b = tf.squeeze(tf.matmul(tf.matmul(e1, w), e2), -1)
 		b = tf.expand_dims(b, -1)
 
-		self.score = tf.matmul(tf.expand_dims(u, 1), tf.nn.tanh(g_a+g_b+b))
+		self.score = tf.squeeze(tf.matmul(tf.expand_dims(u, 1), tf.nn.tanh(g_a+g_b+b)))
 		self.pred = tf.nn.sigmoid(self.score)
 	
 	def add_loss_op(self):

@@ -54,18 +54,18 @@ param_space_DistMult = {
 	"valid_every": 5000,
 }
 
-param_space_best_DistMult = {
-	"embedding_size": 200,
-	"l2_reg_lambda": 0.003,
-	"lr": 0.1,
+param_space_best_DistMult_tanh_wn18 = {
+	"embedding_size": 150,
+	"l2_reg_lambda": 0.0026,
+	"lr": 0.011,
 	"batch_size": 2000,
-	"max_iter": 2000,
+	"max_iter": 15000,
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
 	"valid_every": 0,
 }
 
-param_space_best_NTN = {
+param_space_NTN = {
 	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
 	"k": 2,
 	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(1e-3), 1e-4),
@@ -96,8 +96,7 @@ param_space_dict = {
 	"best_TransE_L1_fb15k": param_space_best_TransE_L1_fb15k,
 	"DistMult": param_space_DistMult,
 	"DistMult_tanh": param_space_DistMult,
-	"best_DistMult": param_space_best_DistMult,
-	"best_DistMult_tanh": param_space_best_DistMult,
+	"best_DistMult_tanh_wn18": param_space_best_DistMult_tanh_wn18,
 	"NTN": param_space_NTN,
 	"best_NTN": param_space_best_NTN,
 }

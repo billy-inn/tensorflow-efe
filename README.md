@@ -70,18 +70,18 @@ Train on the given hyperparameter setting and give the result for the test set.
    <td>0.480</td>
    <td>0.657</td>    
    </tr>
-   <!--<tr>
+   <tr>
    <td>DistMult</td>
    <td>0.868</td>
    <td>0.786</td>
    <td>0.948</td>
    <td>0.970</td>
-   <td>0.651</td>
-   <td>0.544</td>
-   <td>0.728</td>
-   <td>0.825</td>
+   <td>-</td>
+   <td>-</td>
+   <td>-</td>
+   <td>-</td>
    </tr>
-   <tr>
+   <!--<tr>
    <td>HolE</td>
    <td><b>0.62</b></td>
    <td><b>0.94</b></td>
