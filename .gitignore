@@ -10,3 +10,6 @@ data/wn18/e2id.txt
 data/fb15k/digitized_*
 data/fb15k/r2id.txt
 data/fb15k/e2id.txt
+
+analysis.py
+r_counts.txt

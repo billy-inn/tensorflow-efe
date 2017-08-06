@@ -13,7 +13,7 @@ def preprocess(data_name):
 		test_file = config.WN18_TEST
 		e2id_file = config.WN18_E2ID
 		r2id_file = config.WN18_R2ID
-	else:
+	elif data_name == "fb15k":
 		raw_train_file = config.FB15K_TRAIN_RAW
 		raw_valid_file = config.FB15K_VALID_RAW
 		raw_test_file = config.FB15K_TEST_RAW
@@ -22,6 +22,15 @@ def preprocess(data_name):
 		test_file = config.FB15K_TEST
 		e2id_file = config.FB15K_E2ID
 		r2id_file = config.FB15K_R2ID
+	else:
+		raw_train_file = config.BP_TRAIN_RAW
+		raw_valid_file = config.BP_VALID_RAW
+		raw_test_file = config.BP_TEST_RAW
+		train_file = config.BP_TRAIN
+		valid_file = config.BP_VALID
+		test_file = config.BP_TEST
+		e2id_file = config.BP_E2ID
+		r2id_file = config.BP_R2ID
 	
 	df_train = pd.read_csv(raw_train_file, sep="\t", names=["e1", "r", "e2"])
 	df_valid = pd.read_csv(raw_valid_file, sep="\t", names=["e1", "r", "e2"])
