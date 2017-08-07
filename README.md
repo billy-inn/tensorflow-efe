@@ -82,17 +82,15 @@ Train on the given hyperparameter setting and give the result for the test set.
    <td>0.875</td>
    </tr>
    <!--<tr>
-   <td>HolE</td>
-   <td><b>0.62</b></td>
-   <td><b>0.94</b></td>
-   <td>0.928</td>
-   <td><b>0.941</b></td>
-   <td><b>0.944</b></td>
-   <td>0.21</td>
-   <td>0.46</td>
-   <td>33.45</td>
-   <td>53.63</td>
-   <td>67.54</td>
+   <td>NTN</td>
+   <td>0.843</td>
+   <td>0.817</td>
+   <td>0.868</td>
+   <td>0.880</td>
+   <td>-</td>
+   <td>-</td>
+   <td>-</td>
+   <td>-</td>
    </tr>
    <tr>
    <td>ComplEx</td>
