@@ -11,5 +11,7 @@ data/fb15k/digitized_*
 data/fb15k/r2id.txt
 data/fb15k/e2id.txt
 
+data/BasketballPlayer/digitized_*
+
 analysis.py
 r_counts.txt

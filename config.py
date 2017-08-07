@@ -7,6 +7,7 @@ FB15K_DATA_PATH = "%s/fb15k" % DATA_PATH
 BP_DATA_PATH = "%s/BasketballPlayer" % DATA_PATH
 
 LOG_PATH = "%s/log" % ROOT_PATH
+CHECKPOINT_PATH = "%s/checkpoint" % ROOT_PATH
 
 # ----------------------- DATA ------------------------
 

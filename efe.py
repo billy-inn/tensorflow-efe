@@ -25,7 +25,7 @@ class TransE_L2(Model):
 		self.e2 = tf.nn.embedding_lookup(self.entity_embedding, self.tails)
 		self.r = tf.nn.embedding_lookup(self.relation_embedding, self.relations)
 
-		self.pred = - l2_loss(self.e1 + self.r - self.e2)
+		self.pred = tf.negative(l2_loss(self.e1 + self.r - self.e2), name="pred")
 
 	def add_loss_op(self):
 		pos_size, neg_size = self.batch_size, self.batch_size * self.neg_ratio
@@ -33,7 +33,7 @@ class TransE_L2(Model):
 
 		losses = tf.maximum(0.0, self.margin - score_pos \
 				+ tf.reduce_mean(tf.reshape(score_neg, (self.batch_size, self.neg_ratio)), -1))
-		self.loss = tf.reduce_mean(losses)
+		self.loss = tf.reduce_mean(losses, name="loss")
 	
 	def train_on_batch(self, sess, input_batch):
 		feed = self.create_feed_dict(**input_batch)
@@ -48,7 +48,7 @@ class TransE_L1(TransE_L2):
 		self.e2 = tf.nn.embedding_lookup(self.entity_embedding, self.tails)
 		self.r = tf.nn.embedding_lookup(self.relation_embedding, self.relations)
 
-		self.pred = - l1_loss(self.e1 + self.r - self.e2)
+		self.pred = tf.negative(l1_loss(self.e1 + self.r - self.e2), name="pred")
 
 	def add_loss_op(self):
 		pos_size, neg_size = self.batch_size, self.batch_size * self.neg_ratio
@@ -56,7 +56,7 @@ class TransE_L1(TransE_L2):
 
 		losses = tf.maximum(0.0, self.margin - score_pos \
 				+ tf.reduce_mean(tf.reshape(score_neg, (self.batch_size, self.neg_ratio)), -1))
-		self.loss = tf.reduce_mean(losses)
+		self.loss = tf.reduce_mean(losses, name="loss")
 
 class DistMult(Model):
 	def __init__(self, n_entities, n_relations, hparams):
@@ -73,14 +73,14 @@ class DistMult(Model):
 		self.e2 = tf.nn.embedding_lookup(self.entity_embedding, self.tails)
 		self.r = tf.nn.embedding_lookup(self.relation_embedding, self.relations)
 
-		self.pred = tf.nn.sigmoid(tf.reduce_sum(self.e1 * self.r * self.e2, -1))
+		self.pred = tf.nn.sigmoid(tf.reduce_sum(self.e1 * self.r * self.e2, -1), name="pred")
 
 	def add_loss_op(self):
 		losses = tf.nn.softplus(-self.labels * tf.reduce_sum(self.e1 * self.r * self.e2, -1))
 		self.l2_loss = tf.reduce_mean(tf.square(self.e1)) + \
 				tf.reduce_mean(tf.square(self.e2)) + \
 				tf.reduce_mean(tf.square(self.r))
-		self.loss = tf.reduce_mean(losses) + self.l2_reg_lambda * self.l2_loss
+		self.loss = tf.add(tf.reduce_mean(losses), self.l2_reg_lambda * self.l2_loss, name="loss")
 
 class DistMult_tanh(DistMult):
 	def add_prediction_op(self):
@@ -88,7 +88,7 @@ class DistMult_tanh(DistMult):
 		self.e2 = tf.tanh(tf.nn.embedding_lookup(self.entity_embedding, self.tails))
 		self.r = tf.nn.embedding_lookup(self.relation_embedding, self.relations)
 
-		self.pred = tf.nn.sigmoid(tf.reduce_sum(self.e1 * self.r * self.e2, -1))
+		self.pred = tf.nn.sigmoid(tf.reduce_sum(self.e1 * self.r * self.e2, -1), name="pred")
 
 class NTN(Model):
 	def __init__(self, n_entities, n_relations, hparams):
@@ -121,9 +121,9 @@ class NTN(Model):
 		b = tf.expand_dims(b, -1)
 
 		self.score = tf.squeeze(tf.matmul(tf.expand_dims(u, 1), tf.nn.tanh(g_a+g_b+b)))
-		self.pred = tf.nn.sigmoid(self.score)
+		self.pred = tf.nn.sigmoid(self.score, name="pred")
 	
 	def add_loss_op(self):
 		losses = tf.nn.softplus(-self.labels * self.score)
 		self.l2_loss = tf.contrib.layers.apply_regularization(regularizer=tf.contrib.layers.l2_regularizer(self.l2_reg_lambda), weights_list=tf.trainable_variables())
-		self.loss = tf.reduce_mean(losses) + self.l2_reg_lambda * self.l2_loss
+		self.loss = tf.add(tf.reduce_mean(losses), self.l2_reg_lambda * self.l2_loss, name="loss")

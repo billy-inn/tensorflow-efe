@@ -41,6 +41,7 @@ class Task:
 			raise AttributeError("Invalid data name! (Valid data name: wn18, fb15k, bp)")
 
 		self.model_name = model_name
+		self.data_name = data_name
 		self.cv_runs = cv_runs
 		self.params_dict = params_dict
 		self.hparams = AttrDict(params_dict)
@@ -50,6 +51,14 @@ class Task:
 		self.scorer = Scorer(self.train_triples, self.valid_triples, self.test_triples, self.n_entities)
 
 		self.model = self._get_model() 
+		self.saver = tf.train.Saver(tf.global_variables())
+		checkpoint_path = os.path.abspath(config.CHECKPOINT_PATH)
+		if not os.path.exists(checkpoint_path):
+			os.makedirs(checkpoint_path)
+		self.checkpoint_prefix = os.path.join(checkpoint_path, self.__str__())
+	
+	def __str__(self):
+		return self.model_name
 
 	def _get_model(self):
 		args = [self.n_entities, self.n_relations, self.hparams]
@@ -66,6 +75,10 @@ class Task:
 			return NTN(*args)
 		else:
 			raise AttributeError("Invalid model name! (Check model_param_space.py)")
+	
+	def _save(self, sess):
+		path = self.saver.save(sess, self.checkpoint_prefix)
+		print("Saved model to {}".format(path))
 	
 	def _print_param_dict(self, d, prefix="      ", incr_prefix="      "):
 		for k, v in sorted(d.items()):
@@ -125,6 +138,7 @@ class Task:
 		sess = self.create_session()
 		sess.run(tf.global_variables_initializer())
 		self.model.fit(sess, np.concatenate((self.train_triples, self.valid_triples)))
+		self._save(sess)
 
 		def pred_func(test_triples):
 			return self.model.predict(sess, test_triples)
@@ -135,6 +149,7 @@ class Task:
 		self.logger.info("Filtered MRR: %.6f" % res.mrr)
 		self.logger.info("Raw: Hits@1 %.3f Hits@3 %.3f Hits@10 %.3f" % (res.raw_hits_at1, res.raw_hits_at3, res.raw_hits_at10))
 		self.logger.info("Filtered: Hits@1 %.3f Hits@3 %.3f Hits@10 %.3f" % (res.hits_at1, res.hits_at3, res.hits_at10))
+		sess.close()
 		return res
 
 class TaskOptimizer:
