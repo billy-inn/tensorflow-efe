@@ -18,7 +18,7 @@ param_space_TransE = {
 	"max_iter": 100000,
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
-	"valid_every": 1000,
+	"valid_every": 5000,
 }
 
 param_space_best_TransE_L2_wn18 = {
@@ -26,7 +26,7 @@ param_space_best_TransE_L2_wn18 = {
 	"margin": 0.5,
 	"lr": 0.001,
 	"batch_size": 2000,
-	"max_iter": 100,
+	"max_iter": 2000,
 	"neg_ratio": 10,
 	"contiguous_sampling": False,
 	"valid_every": 0,
@@ -65,19 +65,42 @@ param_space_best_DistMult_tanh_wn18 = {
 	"valid_every": 0,
 }
 
+param_space_best_DistMult_tanh_fb15k = {
+	"embedding_size": 200,
+	"l2_reg_lambda": 0.0009,
+	"lr": 0.001,
+	"batch_size": 5000,
+	"max_iter": 55000,
+	"neg_ratio": 10,
+	"contiguous_sampling": False,
+	"valid_every": 0,
+}
+
 param_space_NTN = {
 	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
 	"k": 2,
 	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(1e-3), 1e-4),
 	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-1), 1e-3),
-	"batch_size": 2000,
+	"batch_size": 5000,
 	"max_iter": 100000,
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
 	"valid_every": 5000,
 }
 
-param_space_best_NTN = {
+param_space_best_NTN_wn18 = {
+	"embedding_size": 66,
+	"k": 2,
+	"l2_reg_lambda": 0.0002,
+	"lr": 0.001,
+	"batch_size": 2000,
+	"max_iter": 100000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 0,
+}
+
+param_space_best_NTN_fb15k = {
 	"embedding_size": 50,
 	"k": 2,
 	"l2_reg_lambda": 0.003,
@@ -97,8 +120,10 @@ param_space_dict = {
 	"DistMult": param_space_DistMult,
 	"DistMult_tanh": param_space_DistMult,
 	"best_DistMult_tanh_wn18": param_space_best_DistMult_tanh_wn18,
+	"best_DistMult_tanh_fb15k": param_space_best_DistMult_tanh_fb15k,
 	"NTN": param_space_NTN,
-	"best_NTN": param_space_best_NTN,
+	"best_NTN_wn18": param_space_best_NTN_wn18,
+	"best_NTN_fb15k": param_space_best_NTN_fb15k,
 }
 
 int_params = [

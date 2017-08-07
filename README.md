@@ -76,10 +76,10 @@ Train on the given hyperparameter setting and give the result for the test set.
    <td>0.786</td>
    <td>0.948</td>
    <td>0.970</td>
-   <td>-</td>
-   <td>-</td>
-   <td>-</td>
-   <td>-</td>
+   <td>0.761</td>
+   <td>0.691</td>
+   <td>0.815</td>
+   <td>0.875</td>
    </tr>
    <!--<tr>
    <td>HolE</td>
