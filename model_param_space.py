@@ -112,6 +112,28 @@ param_space_best_NTN_fb15k = {
 	"valid_every": 100,
 }
 
+param_space_Complex = {
+	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
+	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(1e-2), 1e-4),
+	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-1), 1e-3),
+	"batch_size": 2000,
+	"max_iter": 100000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 5000,
+}
+
+param_space_best_Complex = {
+	"embedding_size": 150,
+	"l2_reg_lambda": 0.03,
+	"lr": 0.01,
+	"batch_size": 2000,
+	"max_iter": 2000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 5000,
+}
+
 param_space_dict = {
 	"TransE_L2": param_space_TransE,
 	"TransE_L1": param_space_TransE,
@@ -124,6 +146,10 @@ param_space_dict = {
 	"NTN": param_space_NTN,
 	"best_NTN_wn18": param_space_best_NTN_wn18,
 	"best_NTN_fb15k": param_space_best_NTN_fb15k,
+	"Complex": param_space_Complex,
+	"Complex_tanh": param_space_Complex,
+	"best_Complex": param_space_best_Complex,
+	"best_Complex_tanh": param_space_best_Complex,
 }
 
 int_params = [

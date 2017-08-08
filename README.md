@@ -18,7 +18,7 @@ All specific models are implemented in [efe.py](https://github.com/billy-inn/ten
 | TransE | TransE\_L2; TransE\_L1 |[Bordes et al. (NIPS 2013)](https://www.utc.fr/~bordesan/dokuwiki/_media/en/transe_nips13.pdf) |
 | NTN | NTN | [Socher et al. (NIPS 2013)](https://nlp.stanford.edu/pubs/SocherChenManningNg_NIPS2013.pdf) |
 | DistMult | DistMult; DistMult\_tanh | [Yang et al. (ICLR 2015)](https://arxiv.org/pdf/1412.6575.pdf)
-| ComplEx | Complex; Complex\_Logistic | [Trouillon et al. (ICML 2016)](https://arxiv.org/pdf/1606.06357.pdf) |
+| ComplEx | Complex; Complex\_tanh | [Trouillon et al. (ICML 2016)](https://arxiv.org/pdf/1606.06357.pdf) |
 
 ### Hyperparameters
 
@@ -71,17 +71,6 @@ Train on the given hyperparameter setting and give the result for the test set.
    <td>0.657</td>    
    </tr>
    <tr>
-   <td>DistMult</td>
-   <td>0.868</td>
-   <td>0.786</td>
-   <td>0.948</td>
-   <td>0.970</td>
-   <td>0.761</td>
-   <td>0.691</td>
-   <td>0.815</td>
-   <td>0.875</td>
-   </tr>
-   <!--<tr>
    <td>NTN</td>
    <td>0.843</td>
    <td>0.817</td>
@@ -93,6 +82,17 @@ Train on the given hyperparameter setting and give the result for the test set.
    <td>-</td>
    </tr>
    <tr>
+   <td>DistMult</td>
+   <td>0.868</td>
+   <td>0.786</td>
+   <td>0.948</td>
+   <td>0.970</td>
+   <td>0.761</td>
+   <td>0.691</td>
+   <td>0.815</td>
+   <td>0.875</td>
+   </tr>
+   <!--<tr>
    <td>ComplEx</td>
    <td>0.581</td>
    <td><b>0.94</b></td>   

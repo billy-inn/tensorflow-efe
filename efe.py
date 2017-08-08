@@ -127,3 +127,52 @@ class NTN(Model):
 		losses = tf.nn.softplus(-self.labels * self.score)
 		self.l2_loss = tf.contrib.layers.apply_regularization(regularizer=tf.contrib.layers.l2_regularizer(self.l2_reg_lambda), weights_list=tf.trainable_variables())
 		self.loss = tf.add(tf.reduce_mean(losses), self.l2_reg_lambda * self.l2_loss, name="loss")
+
+class Complex(Model):
+	def __init__(self, n_entities, n_relations, hparams):
+		super(Complex, self).__init__(n_entities, n_relations, hparams)
+		self.l2_reg_lambda = hparams.l2_reg_lambda
+		self.build()
+	
+	def add_params(self):
+		self.entity_embedding1 = tf.Variable(tf.random_uniform([self.n_entities, self.embedding_size], 0., 1., seed=config.RANDOM_SEED), dtype=tf.float32, name="entity_embedding1")
+		self.entity_embedding2 = tf.Variable(tf.random_uniform([self.n_entities, self.embedding_size], 0., 1., seed=config.RANDOM_SEED), dtype=tf.float32, name="entity_embedding2")
+		self.relation_embedding1 = tf.Variable(tf.random_uniform([self.n_relations, self.embedding_size], 0., 1., seed=config.RANDOM_SEED), dtype=tf.float32, name="relation_embedding1")
+		self.relation_embedding2 = tf.Variable(tf.random_uniform([self.n_relations, self.embedding_size], 0., 1., seed=config.RANDOM_SEED), dtype=tf.float32, name="relation_embedding2")
+
+	def add_prediction_op(self):
+		self.e1_1 = tf.nn.embedding_lookup(self.entity_embedding1, self.heads)
+		self.e1_2 = tf.nn.embedding_lookup(self.entity_embedding2, self.heads)
+		self.e2_1 = tf.nn.embedding_lookup(self.entity_embedding1, self.tails)
+		self.e2_2 = tf.nn.embedding_lookup(self.entity_embedding2, self.tails)
+		self.r_1 = tf.nn.embedding_lookup(self.relation_embedding1, self.relations)
+		self.r_2 = tf.nn.embedding_lookup(self.relation_embedding2, self.relations)
+
+		self.pred = tf.subtract(tf.reduce_sum(self.e1_1 * self.r_1 * self.e2_1, -1) \
+				+ tf.reduce_sum(self.e1_2 * self.r_1 * self.e2_2, -1) \
+				+ tf.reduce_sum(self.e1_1 * self.r_2 * self.e2_2, -1) \
+				, tf.reduce_sum(self.e1_2 * self.r_2 * self.e2_1, -1), name="pred")
+	
+	def add_loss_op(self):
+		losses = tf.nn.softplus(-self.labels * self.pred)
+		self.l2_loss = tf.reduce_mean(tf.square(self.e1_1)) \
+				+ tf.reduce_mean(tf.square(self.e1_2)) \
+				+ tf.reduce_mean(tf.square(self.e2_1)) \
+				+ tf.reduce_mean(tf.square(self.e2_2)) \
+				+ tf.reduce_mean(tf.square(self.r_1)) \
+				+ tf.reduce_mean(tf.square(self.r_2))
+		self.loss = tf.add(tf.reduce_mean(losses), self.l2_reg_lambda * self.l2_loss, name="loss")
+
+class Complex_tanh(Complex):
+	def add_prediction_op(self):
+		self.e1_1 = tf.tanh(tf.nn.embedding_lookup(self.entity_embedding1, self.heads))
+		self.e1_2 = tf.tanh(tf.nn.embedding_lookup(self.entity_embedding2, self.heads))
+		self.e2_1 = tf.tanh(tf.nn.embedding_lookup(self.entity_embedding1, self.tails))
+		self.e2_2 = tf.tanh(tf.nn.embedding_lookup(self.entity_embedding2, self.tails))
+		self.r_1 = tf.nn.embedding_lookup(self.relation_embedding1, self.relations)
+		self.r_2 = tf.nn.embedding_lookup(self.relation_embedding2, self.relations)
+
+		self.pred = tf.subtract(tf.reduce_sum(self.e1_1 * self.r_1 * self.e2_1, -1) \
+				+ tf.reduce_sum(self.e1_2 * self.r_1 * self.e2_2, -1) \
+				+ tf.reduce_sum(self.e1_1 * self.r_2 * self.e2_2, -1) \
+				, tf.reduce_sum(self.e1_2 * self.r_2 * self.e2_1, -1), name="pred")

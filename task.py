@@ -73,6 +73,11 @@ class Task:
 				return DistMult(*args)
 		elif "NTN" in self.model_name:
 			return NTN(*args)
+		elif "Complex" in self.model_name:
+			if "tanh" in self.model_name:
+				return Complex_tanh(*args)
+			else:
+				return Complex(*args)
 		else:
 			raise AttributeError("Invalid model name! (Check model_param_space.py)")
 	
