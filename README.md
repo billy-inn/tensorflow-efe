@@ -92,19 +92,18 @@ Train on the given hyperparameter setting and give the result for the test set.
    <td>0.815</td>
    <td>0.875</td>
    </tr>
-   <!--<tr>
+   <tr>
    <td>ComplEx</td>
-   <td>0.581</td>
-   <td><b>0.94</b></td>   
-   <td><b>0.937</b></td>
-   <td><b>0.941</b></td>
-   <td><b>0.944</b></td>
-   <td><b>0.672</b></td>
-   <td>0.235</td>
-   <td><b>0.571</b></td>
-   <td><b>0.746</b></td>
-   <td><b>0.832</b></td>
-   </tr>-->
+   <td><b>0.971</b></td>
+   <td><b>0.969</b></td>
+   <td><b>0.973</b></td>
+   <td><b>0.974</b></td>
+
+   <td><b>-</b></td>
+   <td><b>-</b></td>
+   <td><b>-</b></td>
+   <td><b>-</b></td>
+   </tr>
 </table>
 
 ### License

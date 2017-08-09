@@ -45,7 +45,7 @@ param_space_best_TransE_L1_fb15k = {
 
 param_space_DistMult = {
 	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
-	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(1e-3), 1e-4),
+	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(5e-2), 1e-4),
 	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-1), 1e-3),
 	"batch_size": 5000,
 	"max_iter": 100000,
@@ -114,7 +114,7 @@ param_space_best_NTN_fb15k = {
 
 param_space_Complex = {
 	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
-	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(1e-2), 1e-4),
+	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(5e-2), 1e-4),
 	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-1), 1e-3),
 	"batch_size": 2000,
 	"max_iter": 100000,
@@ -129,6 +129,17 @@ param_space_best_Complex = {
 	"lr": 0.01,
 	"batch_size": 2000,
 	"max_iter": 2000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 5000,
+}
+
+param_space_best_Complex_wn18 = {
+	"embedding_size": 180,
+	"l2_reg_lambda": 0.0073,
+	"lr": 0.002,
+	"batch_size": 2000,
+	"max_iter": 25000,
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
 	"valid_every": 5000,
@@ -150,6 +161,7 @@ param_space_dict = {
 	"Complex_tanh": param_space_Complex,
 	"best_Complex": param_space_best_Complex,
 	"best_Complex_tanh": param_space_best_Complex,
+	"best_Complex_wn18": param_space_best_Complex_wn18,
 }
 
 int_params = [
