@@ -101,15 +101,15 @@ param_space_best_NTN_wn18 = {
 }
 
 param_space_best_NTN_fb15k = {
-	"embedding_size": 50,
+	"embedding_size": 120,
 	"k": 2,
-	"l2_reg_lambda": 0.003,
-	"lr": 0.01,
-	"batch_size": 2000,
-	"max_iter": 2000,
+	"l2_reg_lambda": 0.0001,
+	"lr": 0.001,
+	"batch_size": 5000,
+	"max_iter": 50000,
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
-	"valid_every": 100,
+	"valid_every": 0,
 }
 
 param_space_Complex = {
