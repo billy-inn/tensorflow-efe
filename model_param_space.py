@@ -123,17 +123,6 @@ param_space_Complex = {
 	"valid_every": 5000,
 }
 
-param_space_best_Complex = {
-	"embedding_size": 150,
-	"l2_reg_lambda": 0.03,
-	"lr": 0.01,
-	"batch_size": 2000,
-	"max_iter": 2000,
-	"neg_ratio": 1,
-	"contiguous_sampling": False,
-	"valid_every": 5000,
-}
-
 param_space_best_Complex_wn18 = {
 	"embedding_size": 180,
 	"l2_reg_lambda": 0.0073,
@@ -141,6 +130,17 @@ param_space_best_Complex_wn18 = {
 	"batch_size": 2000,
 	"max_iter": 25000,
 	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 5000,
+}
+
+param_space_best_Complex_tanh_fb15k = {
+	"embedding_size": 140,
+	"l2_reg_lambda": 0.0172,
+	"lr": 0.001,
+	"batch_size": 5000,
+	"max_iter": 80000,
+	"neg_ratio": 10,
 	"contiguous_sampling": False,
 	"valid_every": 5000,
 }
@@ -159,9 +159,8 @@ param_space_dict = {
 	"best_NTN_fb15k": param_space_best_NTN_fb15k,
 	"Complex": param_space_Complex,
 	"Complex_tanh": param_space_Complex,
-	"best_Complex": param_space_best_Complex,
-	"best_Complex_tanh": param_space_best_Complex,
 	"best_Complex_wn18": param_space_best_Complex_wn18,
+	"best_Complex_tanh_fb15k": param_space_best_Complex_tanh_fb15k,
 }
 
 int_params = [

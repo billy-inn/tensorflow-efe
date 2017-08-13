@@ -88,7 +88,7 @@ Train on the given hyperparameter setting and give the result for the test set.
    <td>0.948</td>
    <td>0.970</td>
    <td>0.761</td>
-   <td>0.691</td>
+   <td><b>0.691</b></td>
    <td>0.815</td>
    <td>0.875</td>
    </tr>
@@ -99,10 +99,10 @@ Train on the given hyperparameter setting and give the result for the test set.
    <td><b>0.973</b></td>
    <td><b>0.974</b></td>
 
-   <td><b>-</b></td>
-   <td><b>-</b></td>
-   <td><b>-</b></td>
-   <td><b>-</b></td>
+   <td><b>0.768</b></td>
+   <td>0.676</td>
+   <td><b>0.843</b></td>
+   <td><b>0.908</b></td>
    </tr>
 </table>
 
