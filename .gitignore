@@ -15,5 +15,9 @@ data/BasketballPlayer/digitized_*
 data/BasketballPlayer/r2id.txt
 data/BasketballPlayer/e2id.txt
 
+data/fb1m/digitized_*
+data/fb1m/r2id.txt
+data/fb1m/e2id.txt
+
 analysis.py
 r_counts.txt

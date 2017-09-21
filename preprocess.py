@@ -22,6 +22,15 @@ def preprocess(data_name):
 		test_file = config.FB15K_TEST
 		e2id_file = config.FB15K_E2ID
 		r2id_file = config.FB15K_R2ID
+	elif data_name == "fb1m":
+		raw_train_file = config.FB1M_TRAIN_RAW
+		raw_valid_file = config.FB1M_VALID_RAW
+		raw_test_file = config.FB1M_TEST_RAW
+		train_file = config.FB1M_TRAIN
+		valid_file = config.FB1M_VALID
+		test_file = config.FB1M_TEST
+		e2id_file = config.FB1M_E2ID
+		r2id_file = config.FB1M_R2ID
 	else:
 		raw_train_file = config.BP_TRAIN_RAW
 		raw_valid_file = config.BP_VALID_RAW
