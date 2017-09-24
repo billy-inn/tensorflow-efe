@@ -37,6 +37,12 @@ class Task:
 			self.test_triples = pd.read_csv(config.BP_TEST, names=["e1", "r", "e2"]).as_matrix()
 			self.e2id = load_dict_from_txt(config.BP_E2ID)
 			self.r2id = load_dict_from_txt(config.BP_R2ID)
+		elif data_name == "fb1m":
+			self.train_triples = pd.read_csv(config.FB1M_TRAIN, names=["e1", "r", "e2"]).as_matrix()
+			self.valid_triples = pd.read_csv(config.FB1M_VALID, names=["e1", "r", "e2"]).as_matrix()
+			self.test_triples = pd.read_csv(config.FB1M_TEST, names=["e1", "r", "e2"]).as_matrix()
+			self.e2id = load_dict_from_txt(config.FB1M_E2ID)
+			self.r2id = load_dict_from_txt(config.FB1M_R2ID)
 		else:
 			raise AttributeError("Invalid data name! (Valid data name: wn18, fb15k, bp)")
 
