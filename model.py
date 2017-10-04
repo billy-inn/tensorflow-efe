@@ -116,7 +116,7 @@ class Model(object):
 					print("Validation filtered MRR decreased, stopping here!")
 					break
 				print("")
-		return best_res
+		return current_step, best_res
 	
 	def build(self):
 		self.add_placeholders()

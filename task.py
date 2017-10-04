@@ -5,7 +5,7 @@ from utils import logging_utils
 import numpy as np
 import pandas as pd
 from utils.data_utils import load_dict_from_txt
-from utils.eval_utils import Scorer
+from utils.eval_utils import Scorer, RelationScorer
 import os
 import config
 import datetime
@@ -18,7 +18,7 @@ class AttrDict(dict):
 		self.__dict__ = self
 
 class Task:
-	def __init__(self, model_name, data_name, cv_runs, params_dict, logger):
+	def __init__(self, model_name, data_name, cv_runs, params_dict, logger, eval_by_rel):
 		if data_name == "wn18":
 			self.train_triples = pd.read_csv(config.WN18_TRAIN, names=["e1", "r", "e2"]).as_matrix()
 			self.valid_triples = pd.read_csv(config.WN18_VALID, names=["e1", "r", "e2"]).as_matrix()
@@ -54,7 +54,10 @@ class Task:
 		self.logger = logger
 		self.n_entities = len(self.e2id)
 		self.n_relations = len(self.r2id)
-		self.scorer = Scorer(self.train_triples, self.valid_triples, self.test_triples, self.n_entities)
+		if eval_by_rel:
+			self.scorer = RelationScorer(self.train_triples, self.valid_triples, self.test_triples, self.n_relations)
+		else:
+			self.scorer = Scorer(self.train_triples, self.valid_triples, self.test_triples, self.n_entities)
 
 		self.model = self._get_model() 
 		self.saver = tf.train.Saver(tf.global_variables())
@@ -111,20 +114,21 @@ class Task:
 		self.logger.info("Params")
 		self._print_param_dict(self.params_dict)
 		self.logger.info("Results")
-		self.logger.info("\t\tRun\t\tRaw MRR\t\tFiltered MRR")
+		self.logger.info("\t\tRun\t\tStep\t\tRaw MRR\t\tFiltered MRR")
 
 		cv_res = []
 		for i in range(self.cv_runs):
 			sess = self.create_session()
 			sess.run(tf.global_variables_initializer())
-			res = self.model.fit(sess, self.train_triples, self.valid_triples, self.scorer)
+			step, res = self.model.fit(sess, self.train_triples, self.valid_triples, self.scorer)
 			
 			def pred_func(test_triples):
 				return self.model.predict(sess, test_triples)
 
 			if res is None:
+				step = 0
 				res = self.scorer.compute_scores(pred_func, self.valid_triples)
-			self.logger.info("\t\t%d\t\t%f\t\t%f" % (i, res.raw_mrr, res.mrr))
+			self.logger.info("\t\t%d\t\t%d\t\t%f\t\t%f" % (i, step, res.raw_mrr, res.mrr))
 			cv_res.append(res)
 			sess.close()
 
@@ -164,17 +168,18 @@ class Task:
 		return res
 
 class TaskOptimizer:
-	def __init__(self, model_name, data_name, max_evals, cv_runs, logger):
+	def __init__(self, model_name, data_name, max_evals, cv_runs, logger, eval_by_rel):
 		self.model_name = model_name
 		self.data_name = data_name
 		self.max_evals = max_evals
 		self.cv_runs = cv_runs
 		self.logger = logger
+		self.eval_by_rel = eval_by_rel
 		self.model_param_space = ModelParamSpace(self.model_name)
 
 	def _obj(self, param_dict):
 		param_dict = self.model_param_space._convert_into_param(param_dict)
-		self.task = Task(self.model_name, self.data_name, self.cv_runs, param_dict, self.logger)
+		self.task = Task(self.model_name, self.data_name, self.cv_runs, param_dict, self.logger, self.eval_by_rel)
 		self.task.cv()
 		tf.reset_default_graph()
 		ret = {
@@ -222,6 +227,7 @@ def parse_args(parser):
 	parser.add_option("-d", "--data", type="string", dest="data_name", default="wn18")
 	parser.add_option("-e", "--eval", type="int", dest="max_evals", default=100)
 	parser.add_option("-c", "--cv", type="int", dest="cv_runs", default=3)
+	parser.add_option("-r", "--relation", action="store_true", default=False, dest="relation")
 	options, args = parser.parse_args()
 	return options, args
 
@@ -230,7 +236,7 @@ def main(options):
 	logname = "[Model@%s]_[Data@%s]_%s.log" % (
 			options.model_name, options.data_name, time_str)
 	logger = logging_utils._get_logger(config.LOG_PATH, logname)
-	optimizer = TaskOptimizer(options.model_name, options.data_name, options.max_evals, options.cv_runs, logger)
+	optimizer = TaskOptimizer(options.model_name, options.data_name, options.max_evals, options.cv_runs, logger, options.relation)
 	optimizer.run()
 
 if __name__ == "__main__":

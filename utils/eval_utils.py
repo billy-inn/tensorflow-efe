@@ -65,3 +65,31 @@ class Scorer(object):
 			ranks[nb_test+a] = max(1, ranks[nb_test+a])
 
 		return Result(ranks, raw_ranks)
+
+class RelationScorer(object):
+	def __init__(self, train, valid, test, n_relations):
+		self.known_obj_triples = defaultdict(list)
+		self.known_sub_triples = defaultdict(list)
+		self.n_relations = n_relations
+	
+	def compute_scores(self, predict_func, eval_set):
+		preds = predict_func(eval_set)
+
+		nb_test = len(eval_set)
+		ranks = np.empty(nb_test)
+		raw_ranks = np.empty(nb_test)
+
+		idx_rel_mat = np.empty((self.n_relations, 3), dtype=np.int64)
+		idx_rel_mat[:,1] = np.arange(self.n_relations)
+
+		def eval_r(i, j):
+			idx_rel_mat[:,0] = np.ones(self.n_relations) 
+			idx_rel_mat[:,2] = np.ones(self.n_relations)
+			return predict_func(idx_rel_mat)
+
+		for a, (i,j,k) in enumerate(eval_set):
+			res = eval_r(i, k)
+			raw_ranks[a] = 1 + np.sum(res >= res[j])
+			ranks[a] = raw_ranks[a]
+
+		return Result(ranks, raw_ranks)
