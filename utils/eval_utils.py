@@ -68,9 +68,17 @@ class Scorer(object):
 
 class RelationScorer(object):
 	def __init__(self, train, valid, test, n_relations):
-		self.known_obj_triples = defaultdict(list)
-		self.known_sub_triples = defaultdict(list)
+		self.known_rel_triples = defaultdict(list)
 		self.n_relations = n_relations
+
+		self.update_known_triples(train)
+		self.update_known_triples(test)
+		if valid is not None:
+			self.update_known_triples(valid)
+	
+	def update_known_triples(self, triples):
+		for i, j, k in triples:
+			self.known_rel_triples[(i,k)].append(j)
 	
 	def compute_scores(self, predict_func, eval_set):
 		preds = predict_func(eval_set)
@@ -90,6 +98,7 @@ class RelationScorer(object):
 		for a, (i,j,k) in enumerate(eval_set):
 			res = eval_r(i, k)
 			raw_ranks[a] = 1 + np.sum(res >= res[j])
-			ranks[a] = raw_ranks[a]
+			ranks[a] = raw_ranks[a] - np.sum(res[self.known_rel_triples[(i, k)]] >= res[j])
+			ranks[a] = max(1, ranks[a])
 
 		return Result(ranks, raw_ranks)

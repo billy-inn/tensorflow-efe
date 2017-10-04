@@ -28,11 +28,11 @@ class TransE_L2(Model):
 		self.pred = tf.negative(l2_loss(self.e1 + self.r - self.e2), name="pred")
 
 	def add_loss_op(self):
-		pos_size, neg_size = self.batch_size, self.batch_size * self.neg_ratio
+		pos_size, neg_size = self.batch_size, self.batch_size * self.neg_ratio * 2
 		score_pos, score_neg = tf.split(self.pred, [pos_size, neg_size])
 
 		losses = tf.maximum(0.0, self.margin - score_pos \
-				+ tf.reduce_mean(tf.reshape(score_neg, (self.batch_size, self.neg_ratio)), -1))
+				+ tf.reduce_mean(tf.reshape(score_neg, (self.batch_size, self.neg_ratio*2)), -1))
 		self.loss = tf.reduce_mean(losses, name="loss")
 	
 	def train_on_batch(self, sess, input_batch):
@@ -51,11 +51,11 @@ class TransE_L1(TransE_L2):
 		self.pred = tf.negative(l1_loss(self.e1 + self.r - self.e2), name="pred")
 
 	def add_loss_op(self):
-		pos_size, neg_size = self.batch_size, self.batch_size * self.neg_ratio
+		pos_size, neg_size = self.batch_size, self.batch_size * self.neg_ratio * 2
 		score_pos, score_neg = tf.split(self.pred, [pos_size, neg_size])
 
 		losses = tf.maximum(0.0, self.margin - score_pos \
-				+ tf.reduce_mean(tf.reshape(score_neg, (self.batch_size, self.neg_ratio)), -1))
+				+ tf.reduce_mean(tf.reshape(score_neg, (self.batch_size, self.neg_ratio*2)), -1))
 		self.loss = tf.reduce_mean(losses, name="loss")
 
 class DistMult(Model):
