@@ -91,8 +91,8 @@ class RelationScorer(object):
 		idx_rel_mat[:,1] = np.arange(self.n_relations)
 
 		def eval_r(i, j):
-			idx_rel_mat[:,0] = np.ones(self.n_relations) 
-			idx_rel_mat[:,2] = np.ones(self.n_relations)
+			idx_rel_mat[:,0] = i*np.ones(self.n_relations) 
+			idx_rel_mat[:,2] = j*np.ones(self.n_relations)
 			return predict_func(idx_rel_mat)
 
 		for a, (i,j,k) in enumerate(eval_set):

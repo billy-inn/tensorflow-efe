@@ -127,7 +127,7 @@ param_space_Complex = {
 	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
 	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(5e-2), 1e-4),
 	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-1), 1e-3),
-	"batch_size": 2000,
+	"batch_size": 5000,
 	"max_iter": 100000,
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
