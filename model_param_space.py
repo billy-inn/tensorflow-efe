@@ -110,9 +110,9 @@ param_space_best_DistMult_tanh_fb15k_rel = {
 }
 
 param_space_NTN = {
-	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
+	"embedding_size": 50,
 	"k": 2,
-	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(1e-3), 1e-4),
+	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(5e-2), 1e-4),
 	"lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
 	"batch_size": 5000,
 	"max_iter": 100000,
@@ -178,7 +178,7 @@ param_space_best_Complex_tanh_fb15k = {
 	"valid_every": 0,
 }
 
-param_space_best_Complex_tanh_fb15k = {
+param_space_best_Complex_tanh_fb15k_rel = {
 	"embedding_size": 140,
 	"l2_reg_lambda": 0.0476,
 	"lr": 0.0005,
@@ -187,6 +187,17 @@ param_space_best_Complex_tanh_fb15k = {
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
 	"valid_every": 0,
+}
+
+param_space_DEDICOM = {
+	"embedding_size": 50,
+	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(5e-2), 1e-4),
+	"lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
+	"batch_size": 5000,
+	"max_iter": 100000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 100,
 }
 
 param_space_dict = {
@@ -209,6 +220,7 @@ param_space_dict = {
 	"best_Complex_tanh_fb15k": param_space_best_Complex_tanh_fb15k,
 	"best_Complex_tanh_fb15k_rel": param_space_best_Complex_tanh_fb15k_rel,
 	"DistMult_tanh_fb3m": param_space_DistMult_fb3m,
+	"DEDICOM": param_space_DEDICOM,
 }
 
 int_params = [

@@ -87,6 +87,8 @@ class Task:
 				return Complex_tanh(*args)
 			else:
 				return Complex(*args)
+		elif "DEDICOM" in self.model_name:
+			return DEDICOM(*args)
 		else:
 			raise AttributeError("Invalid model name! (Check model_param_space.py)")
 	
