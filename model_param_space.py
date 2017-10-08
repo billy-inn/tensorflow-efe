@@ -13,7 +13,7 @@ from hyperopt import hp
 param_space_TransE = {
 	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
 	"margin": hp.quniform("margin", 0.5, 5, 0.5),
-	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-1), 1e-3),
+	"lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
 	"batch_size": 5000,
 	"max_iter": 100000,
 	"neg_ratio": 1,
@@ -29,7 +29,7 @@ param_space_best_TransE_L2_wn18 = {
 	"max_iter": 2000,
 	"neg_ratio": 10,
 	"contiguous_sampling": False,
-	"valid_every": 100,
+	"valid_every": 0,
 }
 
 param_space_best_TransE_L1_fb15k = {
@@ -43,10 +43,21 @@ param_space_best_TransE_L1_fb15k = {
 	"valid_every": 0,
 }
 
+param_space_best_TransE_L1_fb15k_rel = {
+	"embedding_size": 200,
+	"margin": 2.5,
+	"lr": 0.0001,
+	"batch_size": 5000,
+	"max_iter": 60000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 0,
+}
+
 param_space_DistMult = {
 	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
 	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(5e-2), 1e-4),
-	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-1), 1e-3),
+	"lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
 	"batch_size": 5000,
 	"max_iter": 100000,
 	"neg_ratio": 1,
@@ -57,7 +68,7 @@ param_space_DistMult = {
 param_space_DistMult_fb3m = {
 	"embedding_size": 50,
 	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(5e-2), 1e-4),
-	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-1), 1e-3),
+	"lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
 	"batch_size": 2000,
 	"max_iter": 300000,
 	"neg_ratio": 1,
@@ -87,11 +98,22 @@ param_space_best_DistMult_tanh_fb15k = {
 	"valid_every": 0,
 }
 
+param_space_best_DistMult_tanh_fb15k_rel = {
+	"embedding_size": 110,
+	"l2_reg_lambda": 0.0448,
+	"lr": 0.0027,
+	"batch_size": 5000,
+	"max_iter": 20000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 0,
+}
+
 param_space_NTN = {
 	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
 	"k": 2,
 	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(1e-3), 1e-4),
-	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-1), 1e-3),
+	"lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
 	"batch_size": 5000,
 	"max_iter": 100000,
 	"neg_ratio": 1,
@@ -126,7 +148,7 @@ param_space_best_NTN_fb15k = {
 param_space_Complex = {
 	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
 	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(5e-2), 1e-4),
-	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-1), 1e-3),
+	"lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
 	"batch_size": 5000,
 	"max_iter": 100000,
 	"neg_ratio": 1,
@@ -142,7 +164,7 @@ param_space_best_Complex_wn18 = {
 	"max_iter": 25000,
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
-	"valid_every": 5000,
+	"valid_every": 0,
 }
 
 param_space_best_Complex_tanh_fb15k = {
@@ -153,7 +175,18 @@ param_space_best_Complex_tanh_fb15k = {
 	"max_iter": 80000,
 	"neg_ratio": 10,
 	"contiguous_sampling": False,
-	"valid_every": 5000,
+	"valid_every": 0,
+}
+
+param_space_best_Complex_tanh_fb15k = {
+	"embedding_size": 140,
+	"l2_reg_lambda": 0.0476,
+	"lr": 0.0005,
+	"batch_size": 5000,
+	"max_iter": 50000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 0,
 }
 
 param_space_dict = {
@@ -161,10 +194,12 @@ param_space_dict = {
 	"TransE_L1": param_space_TransE,
 	"best_TransE_L2_wn18": param_space_best_TransE_L2_wn18,
 	"best_TransE_L1_fb15k": param_space_best_TransE_L1_fb15k,
+	"best_TransE_L1_fb15k_rel": param_space_best_TransE_L1_fb15k_rel,
 	"DistMult": param_space_DistMult,
 	"DistMult_tanh": param_space_DistMult,
 	"best_DistMult_tanh_wn18": param_space_best_DistMult_tanh_wn18,
 	"best_DistMult_tanh_fb15k": param_space_best_DistMult_tanh_fb15k,
+	"best_DistMult_tanh_fb15k_rel": param_space_best_DistMult_tanh_fb15k_rel,
 	"NTN": param_space_NTN,
 	"best_NTN_wn18": param_space_best_NTN_wn18,
 	"best_NTN_fb15k": param_space_best_NTN_fb15k,
@@ -172,6 +207,7 @@ param_space_dict = {
 	"Complex_tanh": param_space_Complex,
 	"best_Complex_wn18": param_space_best_Complex_wn18,
 	"best_Complex_tanh_fb15k": param_space_best_Complex_tanh_fb15k,
+	"best_Complex_tanh_fb15k_rel": param_space_best_Complex_tanh_fb15k_rel,
 	"DistMult_tanh_fb3m": param_space_DistMult_fb3m,
 }
 

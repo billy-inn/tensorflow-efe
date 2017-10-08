@@ -107,25 +107,30 @@ class NTN(Model):
 	def add_prediction_op(self):
 		self.e1 = tf.nn.embedding_lookup(self.entity_embedding, self.heads)
 		self.e2 = tf.nn.embedding_lookup(self.entity_embedding, self.tails)
-		w = tf.nn.embedding_lookup(self.W, self.relations)
-		v = tf.nn.embedding_lookup(self.V, self.relations)
-		b = tf.nn.embedding_lookup(self.B, self.relations)
-		u = tf.nn.embedding_lookup(self.U, self.relations)
+		self.w = tf.nn.embedding_lookup(self.W, self.relations)
+		self.v = tf.nn.embedding_lookup(self.V, self.relations)
+		self.b = tf.nn.embedding_lookup(self.B, self.relations)
+		self.u = tf.nn.embedding_lookup(self.U, self.relations)
 
-		g_a = tf.matmul(v, tf.expand_dims(tf.concat([self.e1, self.e2], 1), -1))
+		g_a = tf.matmul(self.v, tf.expand_dims(tf.concat([self.e1, self.e2], 1), -1))
 		e1 = tf.reshape(self.e1, [-1, 1, 1, self.embedding_size])
 		e2 = tf.reshape(self.e2, [-1, 1, self.embedding_size, 1])
 		e1 = tf.tile(e1, [1, 2, 1, 1])
 		e2 = tf.tile(e2, [1, 2, 1, 1])
-		g_b = tf.squeeze(tf.matmul(tf.matmul(e1, w), e2), -1)
-		b = tf.expand_dims(b, -1)
+		g_b = tf.squeeze(tf.matmul(tf.matmul(e1, self.w), e2), -1)
+		b = tf.expand_dims(self.b, -1)
 
-		self.score = tf.squeeze(tf.matmul(tf.expand_dims(u, 1), tf.nn.tanh(g_a+g_b+b)))
+		self.score = tf.squeeze(tf.matmul(tf.expand_dims(self.u, 1), tf.nn.tanh(g_a+g_b+b)))
 		self.pred = tf.nn.sigmoid(self.score, name="pred")
 	
 	def add_loss_op(self):
 		losses = tf.nn.softplus(-self.labels * self.score)
-		self.l2_loss = tf.contrib.layers.apply_regularization(regularizer=tf.contrib.layers.l2_regularizer(self.l2_reg_lambda), weights_list=tf.trainable_variables())
+		self.l2_loss = tf.reduce_mean(tf.square(self.e1)) \
+				+ tf.reduce_mean(tf.square(self.e2)) \
+				+ tf.reduce_mean(tf.square(self.w)) \
+				+ tf.reduce_mean(tf.square(self.v)) \
+				+ tf.reduce_mean(tf.square(self.b)) \
+				+ tf.reduce_mean(tf.square(self.u)) \
 		self.loss = tf.add(tf.reduce_mean(losses), self.l2_reg_lambda * self.l2_loss, name="loss")
 
 class Complex(Model):

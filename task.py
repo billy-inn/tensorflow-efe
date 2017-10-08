@@ -153,7 +153,7 @@ class Task:
 		sess = self.create_session()
 		sess.run(tf.global_variables_initializer())
 		self.model.fit(sess, np.concatenate((self.train_triples, self.valid_triples)))
-		self._save(sess)
+		#self._save(sess)
 
 		def pred_func(test_triples):
 			return self.model.predict(sess, test_triples)
