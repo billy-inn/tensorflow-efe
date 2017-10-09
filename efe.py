@@ -133,7 +133,7 @@ class NTN(Model):
 				+ tf.reduce_mean(tf.square(self.u)) 
 		self.loss = tf.add(tf.reduce_mean(losses), self.l2_reg_lambda * self.l2_loss, name="loss")
 
-class NTN_Diag(NTN):
+class NTN_diag(NTN):
 	def add_params(self):
 		self.entity_embedding = tf.Variable(tf.random_uniform([self.n_entities, self.embedding_size], 0., 1., seed=config.RANDOM_SEED), dtype=tf.float32, name="entity_embedding")
 		self.W = tf.Variable(tf.random_uniform([self.n_relations, self.k, self.embedding_size], 0., 1., seed=config.RANDOM_SEED), dtype=tf.float32, name="W")

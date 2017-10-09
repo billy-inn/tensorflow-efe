@@ -81,7 +81,10 @@ class Task:
 			else:
 				return DistMult(*args)
 		elif "NTN" in self.model_name:
-			return NTN(*args)
+			if "diag" in self.model_name:
+				return NTN_diag(*args)
+			else:
+				return NTN(*args)
 		elif "Complex" in self.model_name:
 			if "tanh" in self.model_name:
 				return Complex_tanh(*args)
