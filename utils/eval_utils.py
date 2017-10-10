@@ -55,13 +55,13 @@ class Scorer(object):
 
 		for a, (i,j,k) in enumerate(eval_set):
 			res_obj = eval_o(i, j)
-			raw_ranks[a] = 1 + np.sum(res_obj > res_obj[k])
-			ranks[a] = raw_ranks[a] - np.sum(res_obj[self.known_obj_triples[(i,j)]] > res_obj[k])
+			raw_ranks[a] = np.sum(res_obj >= res_obj[k])
+			ranks[a] = raw_ranks[a] - np.sum(res_obj[self.known_obj_triples[(i,j)]] >= res_obj[k]) + 1
 			ranks[a] = max(1, ranks[a])
 
 			res_sub = eval_s(j, k)
-			raw_ranks[nb_test+a] = 1 + np.sum(res_sub > res_sub[i])
-			ranks[nb_test+a] = raw_ranks[nb_test+a] - np.sum(res_sub[self.known_sub_triples[(j,k)]] > res_sub[i])
+			raw_ranks[nb_test+a] = np.sum(res_sub >= res_sub[i])
+			ranks[nb_test+a] = raw_ranks[nb_test+a] - np.sum(res_sub[self.known_sub_triples[(j,k)]] >= res_sub[i]) + 1
 			ranks[nb_test+a] = max(1, ranks[nb_test+a])
 
 		return Result(ranks, raw_ranks)
@@ -97,8 +97,8 @@ class RelationScorer(object):
 
 		for a, (i,j,k) in enumerate(eval_set):
 			res = eval_r(i, k)
-			raw_ranks[a] = 1 + np.sum(res > res[j])
-			ranks[a] = raw_ranks[a] - np.sum(res[self.known_rel_triples[(i, k)]] > res[j])
+			raw_ranks[a] = np.sum(res >= res[j])
+			ranks[a] = raw_ranks[a] - np.sum(res[self.known_rel_triples[(i, k)]] >= res[j]) + 1
 			ranks[a] = max(1, ranks[a])
 
 		return Result(ranks, raw_ranks)
