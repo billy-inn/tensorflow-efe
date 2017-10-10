@@ -88,6 +88,8 @@ class Task:
 		elif "Complex" in self.model_name:
 			if "tanh" in self.model_name:
 				return Complex_tanh(*args)
+			elif "multi" in self.model_name:
+				return Complex_multi(*args)
 			else:
 				return Complex(*args)
 		elif "DEDICOM" in self.model_name:

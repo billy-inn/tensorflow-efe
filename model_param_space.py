@@ -224,6 +224,18 @@ param_space_DEDICOM = {
 	"valid_every": 5000,
 }
 
+param_space_Complex_multi = {
+	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
+	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-3), np.log(5e-1), 1e-3),
+	"lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
+	"k": 2,
+	"batch_size": 5000,
+	"max_iter": 100000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 5000,
+}
+
 param_space_dict = {
 	"TransE_L2": param_space_TransE,
 	"TransE_L1": param_space_TransE,
@@ -248,6 +260,7 @@ param_space_dict = {
 	"DistMult_tanh_fb3m": param_space_DistMult_fb3m,
 	"DEDICOM": param_space_DEDICOM,
 	"DEDICOM_complex": param_space_DEDICOM,
+	"Complex_multi": param_space_Complex_multi,
 }
 
 int_params = [
