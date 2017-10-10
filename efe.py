@@ -154,10 +154,11 @@ class NTN_diag(NTN):
 		e2 = tf.reshape(self.e2, [-1, 1, self.embedding_size])
 		e1 = tf.tile(e1, [1, self.k, 1])
 		e2 = tf.tile(e2, [1, self.k, 1])
-		g_b = tf.reduce_sum(e1 * self.w * e2, -1)
+		g_b = tf.reduce_sum(e1 * self.w * e2, -1, keep_dims=True)
 		b = tf.expand_dims(self.b, -1)
 
 		self.score = tf.squeeze(tf.matmul(tf.expand_dims(self.u, 1), tf.nn.tanh(g_a+g_b+b)))
+		self.pred = tf.nn.sigmoid(self.score, name="pred")
 
 class Complex(Model):
 	def __init__(self, n_entities, n_relations, hparams):
@@ -235,5 +236,56 @@ class DEDICOM(Model):
 		self.l2_loss = tf.reduce_mean(tf.square(self.e1)) \
 				+ tf.reduce_mean(tf.square(self.e2)) \
 				+ tf.reduce_mean(tf.square(self.w)) \
+				+ tf.reduce_mean(tf.square(self.V))
+		self.loss = tf.add(tf.reduce_mean(losses), self.l2_reg_lambda * self.l2_loss, name="loss")
+
+class DEDICOM_Complex(Model):
+	def __init__(self, n_entities, n_relations, hparams):
+		super(DEDICOM_Complex, self).__init__(n_entities, n_relations, hparams)
+		self.l2_reg_lambda = hparams.l2_reg_lambda
+		self.build()
+	
+	def add_params(self):
+		self.entity_embedding1 = tf.Variable(tf.random_uniform([self.n_entities, self.embedding_size], 0., 1., seed=config.RANDOM_SEED), dtype=tf.float32, name="entity_embedding1")
+		self.entity_embedding2 = tf.Variable(tf.random_uniform([self.n_entities, self.embedding_size], 0., 1., seed=config.RANDOM_SEED), dtype=tf.float32, name="entity_embedding2")
+		self.W1 = tf.Variable(tf.random_uniform([self.n_relations, self.embedding_size], 0., 1., seed=config.RANDOM_SEED), dtype=tf.float32, name="W1")
+		self.W2 = tf.Variable(tf.random_uniform([self.n_relations, self.embedding_size], 0., 1., seed=config.RANDOM_SEED), dtype=tf.float32, name="W2")
+		self.V = tf.Variable(tf.random_uniform([self.embedding_size, self.embedding_size], 0., 1., seed=config.RANDOM_SEED), dtype=tf.float32, name="V")
+	
+	def add_prediction_op(self):
+		self.e1_r = tf.nn.embedding_lookup(self.entity_embedding1, self.heads)
+		self.e1_i = tf.nn.embedding_lookup(self.entity_embedding2, self.heads)
+		self.e2_r = tf.nn.embedding_lookup(self.entity_embedding1, self.tails)
+		self.e2_i = tf.nn.embedding_lookup(self.entity_embedding2, self.tails)
+		self.w_r = tf.nn.embedding_lookup(self.W1, self.relations)
+		self.w_i = tf.nn.embedding_lookup(self.W2, self.relations)
+
+		v = tf.tile(tf.expand_dims(self.V, 0), [tf.shape(self.e1_r)[0], 1, 1])
+		l1 = tf.expand_dims(self.e1_r * self.w_r, 1)
+		l2 = tf.expand_dims(self.e1_r * self.w_i, 1)
+		l3 = tf.expand_dims(self.e1_i * self.w_r, 1)
+		l4 = tf.expand_dims(self.e1_i * self.w_i, 1)
+		r1 = tf.expand_dims(self.e2_r * self.w_r, 2)
+		r2 = tf.expand_dims(self.e2_r * self.w_i, 2)
+		r3 = tf.expand_dims(self.e2_i * self.w_r, 2)
+		r4 = tf.expand_dims(self.e2_i * self.w_i, 2)
+		self.score = tf.squeeze(tf.matmul(tf.matmul(l1, v), r1) \
+				+ tf.matmul(tf.matmul(l1, v), r4) \
+				- tf.matmul(tf.matmul(l4, v), r1) \
+				- tf.matmul(tf.matmul(l4, v), r4) \
+				- tf.matmul(tf.matmul(l2, v), r3) \
+				+ tf.matmul(tf.matmul(l2, v), r2) \
+				- tf.matmul(tf.matmul(l3, v), r3) \
+				+ tf.matmul(tf.matmul(l3, v), r2))
+		self.pred = tf.nn.sigmoid(self.score, name="pred")
+	
+	def add_loss_op(self):
+		losses = tf.nn.softplus(-self.labels * self.score)
+		self.l2_loss = tf.reduce_mean(tf.square(self.e1_r)) \
+				+ tf.reduce_mean(tf.square(self.e1_i)) \
+				+ tf.reduce_mean(tf.square(self.e2_r)) \
+				+ tf.reduce_mean(tf.square(self.e2_i)) \
+				+ tf.reduce_mean(tf.square(self.w_r)) \
+				+ tf.reduce_mean(tf.square(self.w_i)) \
 				+ tf.reduce_mean(tf.square(self.V))
 		self.loss = tf.add(tf.reduce_mean(losses), self.l2_reg_lambda * self.l2_loss, name="loss")

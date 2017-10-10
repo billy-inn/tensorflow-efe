@@ -91,7 +91,10 @@ class Task:
 			else:
 				return Complex(*args)
 		elif "DEDICOM" in self.model_name:
-			return DEDICOM(*args)
+			if "complex" in self.model_name:
+				return DEDICOM_Complex(*args)
+			else:
+				return DEDICOM(*args)
 		else:
 			raise AttributeError("Invalid model name! (Check model_param_space.py)")
 	
