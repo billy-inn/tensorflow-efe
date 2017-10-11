@@ -27,7 +27,7 @@ param_space_best_TransE_L2_wn18 = {
 	"lr": 0.001,
 	"batch_size": 2000,
 	"max_iter": 2000,
-	"neg_ratio": 10,
+	"neg_ratio": 1,
 	"contiguous_sampling": False,
 	"valid_every": 0,
 }
@@ -93,7 +93,7 @@ param_space_best_DistMult_tanh_fb15k = {
 	"lr": 0.001,
 	"batch_size": 5000,
 	"max_iter": 55000,
-	"neg_ratio": 10,
+	"neg_ratio": 1,
 	"contiguous_sampling": False,
 	"valid_every": 0,
 }
@@ -197,7 +197,7 @@ param_space_best_Complex_tanh_fb15k = {
 	"lr": 0.001,
 	"batch_size": 5000,
 	"max_iter": 80000,
-	"neg_ratio": 10,
+	"neg_ratio": 1,
 	"contiguous_sampling": False,
 	"valid_every": 0,
 }
@@ -233,6 +233,17 @@ param_space_DEDICOM_complex = {
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
 	"valid_every": 5000,
+}
+
+param_space_best_DEDICOM = {
+	"embedding_size": 70,
+	"l2_reg_lambda": 0.0452,
+	"lr": 0.0031 
+	"batch_size": 5000,
+	"max_iter": 100000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 0,
 }
 
 param_space_Complex_multi = {
@@ -271,6 +282,8 @@ param_space_dict = {
 	"DistMult_tanh_fb3m": param_space_DistMult_fb3m,
 	"DEDICOM": param_space_DEDICOM,
 	"DEDICOM_complex": param_space_DEDICOM_complex,
+	"best_DEDICOM": param_space_best_DEDICOM,
+	"best_DEDICOM_complex": param_space_best_DEDICOM,
 	"Complex_multi": param_space_Complex_multi,
 }
 
