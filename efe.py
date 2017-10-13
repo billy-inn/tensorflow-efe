@@ -242,13 +242,9 @@ class Complex_multi(Model):
 			+ tf.reduce_mean(e1_1 * self.r2 * e2_2, -1) \
 			- tf.reduce_mean(e1_2 * self.r2 * e2_1, -1)
 		alpha = tf.nn.softmax(tf.nn.tanh(scores) * self.u)
-		self.pred = tf.reduce_sum(alpha * scores, -1)
+		self.pred = tf.reduce_sum(alpha * scores, -1, name="pred")
 		
-		#self.pred = tf.squeeze(tf.matmul(u, tf.nn.tanh(
-		#	tf.reduce_mean(e1_1 * self.r1 * e2_1, -1, keep_dims=True) \
-		#	+ tf.reduce_mean(e1_2 * self.r1 * e2_2, -1, keep_dims=True) \
-		#	+ tf.reduce_mean(e1_1 * self.r2 * e2_2, -1, keep_dims=True) \
-		#	- tf.reduce_mean(e1_2 * self.r2 * e2_1, -1, keep_dims=True))), name="pred")
+		#self.pred = tf.reduce_sum(self.u * tf.nn.tanh(scores), -1, name="pred")
 	
 	def add_loss_op(self):
 		losses = tf.nn.softplus(-self.labels * self.pred)

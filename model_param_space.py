@@ -258,6 +258,18 @@ param_space_Complex_multi = {
 	"valid_every": 0,
 }
 
+param_space_best_Complex_multi = {
+	"embedding_size": 190,
+	"l2_reg_lambda": 0.0003,
+	"lr": 0.0025,
+	"k": 2,
+	"batch_size": 5000,
+	"max_iter": 80000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 0,
+}
+
 param_space_dict = {
 	"TransE_L2": param_space_TransE,
 	"TransE_L1": param_space_TransE,
@@ -285,6 +297,7 @@ param_space_dict = {
 	"best_DEDICOM": param_space_best_DEDICOM,
 	"best_DEDICOM_complex": param_space_best_DEDICOM,
 	"Complex_multi": param_space_Complex_multi,
+	"best_Complex_multi": param_space_best_Complex_multi,
 }
 
 int_params = [

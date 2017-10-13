@@ -21,3 +21,5 @@ data/fb1m/e2id.txt
 
 analysis.py
 r_counts.txt
+
+log/*.log
