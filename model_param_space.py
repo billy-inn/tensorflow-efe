@@ -218,29 +218,29 @@ param_space_DEDICOM = {
 	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-3), np.log(1e-1), 1e-3),
 	"lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
 	"batch_size": 5000,
-	"max_iter": 100000,
+	"max_iter": hp.quniform("max_iter", 20000, 100000, 5000),
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
-	"valid_every": 5000,
+	"valid_every": 0,
 }
 
 param_space_DEDICOM_complex = {
-	"embedding_size": 50,
+	"embedding_size": hp.quniform("embedding_size", 50, 100, 10),
 	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-3), np.log(1e-1), 1e-3),
 	"lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
 	"batch_size": 5000,
-	"max_iter": 100000,
+	"max_iter": hp.quniform("max_iter", 20000, 100000, 5000),
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
-	"valid_every": 5000,
+	"valid_every": 0,
 }
 
 param_space_best_DEDICOM = {
 	"embedding_size": 70,
 	"l2_reg_lambda": 0.0452,
-	"lr": 0.0031 
+	"lr": 0.0031,
 	"batch_size": 5000,
-	"max_iter": 100000,
+	"max_iter": 50000,
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
 	"valid_every": 0,
@@ -248,14 +248,14 @@ param_space_best_DEDICOM = {
 
 param_space_Complex_multi = {
 	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
-	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-3), np.log(1e-1), 1e-3),
-	"lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
+	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(1e-2), 1e-4),
+	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-2), 5e-4),
 	"k": 2,
 	"batch_size": 5000,
-	"max_iter": 100000,
+	"max_iter": hp.quniform("max_iter", 20000, 100000, 5000),
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
-	"valid_every": 5000,
+	"valid_every": 0,
 }
 
 param_space_dict = {
