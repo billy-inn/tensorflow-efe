@@ -65,17 +65,6 @@ param_space_DistMult = {
 	"valid_every": 5000,
 }
 
-param_space_DistMult_fb3m = {
-	"embedding_size": 50,
-	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(1e-1), 1e-4),
-	"lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
-	"batch_size": 2000,
-	"max_iter": 300000,
-	"neg_ratio": 1,
-	"contiguous_sampling": False,
-	"valid_every": 10000,
-}
-
 param_space_best_DistMult_tanh_wn18 = {
 	"embedding_size": 150,
 	"l2_reg_lambda": 0.0026,
@@ -180,6 +169,17 @@ param_space_Complex = {
 	"valid_every": 5000,
 }
 
+param_space_Complex_fb3m = {
+	"embedding_size": 50,
+	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(1e-3), 1e-4),
+	"lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-3), 1e-4),
+	"batch_size": 5000,
+	"max_iter": 2000000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 100000,
+}
+
 param_space_best_Complex_wn18 = {
 	"embedding_size": 180,
 	"l2_reg_lambda": 0.0073,
@@ -226,7 +226,7 @@ param_space_DEDICOM = {
 
 param_space_DEDICOM_complex = {
 	"embedding_size": hp.quniform("embedding_size", 50, 100, 10),
-	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-3), np.log(1e-1), 1e-3),
+	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(5e-2), 1e-4),
 	"lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
 	"batch_size": 5000,
 	"max_iter": hp.quniform("max_iter", 20000, 100000, 5000),
@@ -247,9 +247,9 @@ param_space_best_DEDICOM = {
 }
 
 param_space_Complex_multi = {
-	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
+	"embedding_size": 200,
 	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(1e-2), 1e-4),
-	"lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-2), 5e-4),
+	"lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
 	"k": 2,
 	"batch_size": 5000,
 	"max_iter": hp.quniform("max_iter", 20000, 100000, 5000),
@@ -259,12 +259,12 @@ param_space_Complex_multi = {
 }
 
 param_space_best_Complex_multi = {
-	"embedding_size": 190,
-	"l2_reg_lambda": 0.0003,
+	"embedding_size": 200,
+	"l2_reg_lambda": 0.0004,
 	"lr": 0.0025,
 	"k": 2,
 	"batch_size": 5000,
-	"max_iter": 80000,
+	"max_iter": 100000,
 	"neg_ratio": 1,
 	"contiguous_sampling": False,
 	"valid_every": 0,
@@ -288,10 +288,11 @@ param_space_dict = {
 	"NTN_diag": param_space_NTN_diag,
 	"Complex": param_space_Complex,
 	"Complex_tanh": param_space_Complex,
+	"Complex_fb3m": param_space_Complex_fb3m,
+	"Complex_tanh_fb3m": param_space_Complex_fb3m,
 	"best_Complex_wn18": param_space_best_Complex_wn18,
 	"best_Complex_tanh_fb15k": param_space_best_Complex_tanh_fb15k,
 	"best_Complex_tanh_fb15k_rel": param_space_best_Complex_tanh_fb15k_rel,
-	"DistMult_tanh_fb3m": param_space_DistMult_fb3m,
 	"DEDICOM": param_space_DEDICOM,
 	"DEDICOM_complex": param_space_DEDICOM_complex,
 	"best_DEDICOM": param_space_best_DEDICOM,
