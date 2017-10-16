@@ -213,6 +213,17 @@ param_space_best_Complex_tanh_fb15k_rel = {
 	"valid_every": 0,
 }
 
+param_space_best_Complex_tanh_fb3m = {
+	"embedding_size": 50,
+	"l2_reg_lambda": 0.0003,
+	"lr": 0.0003,
+	"batch_size": 5000,
+	"max_iter": 100000,
+	"neg_ratio": 1,
+	"contiguous_sampling": False,
+	"valid_every": 0,
+}
+
 param_space_DEDICOM = {
 	"embedding_size": hp.quniform("embedding_size", 50, 200, 10),
 	"l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-3), np.log(1e-1), 1e-3),
@@ -293,6 +304,7 @@ param_space_dict = {
 	"best_Complex_wn18": param_space_best_Complex_wn18,
 	"best_Complex_tanh_fb15k": param_space_best_Complex_tanh_fb15k,
 	"best_Complex_tanh_fb15k_rel": param_space_best_Complex_tanh_fb15k_rel,
+	"best_Complex_tanh_fb3m": param_space_best_Complex_tanh_fb3m,
 	"DEDICOM": param_space_DEDICOM,
 	"DEDICOM_complex": param_space_DEDICOM_complex,
 	"best_DEDICOM": param_space_best_DEDICOM,

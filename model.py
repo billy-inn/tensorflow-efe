@@ -92,8 +92,8 @@ class Model(object):
 		return preds
 
 	def fit(self, sess, train_triples, valid_triples=None, scorer=None):
-		train_batch_loader = Batch_Loader(train_triples, self.n_entities, batch_size=self.batch_size, neg_ratio=self.neg_ratio, contiguous_sampling=self.contiguous_sampling)
-		#train_batch_loader = Extended_Batch_Loader(train_triples, self.n_entities, self.n_relations, batch_size=self.batch_size, neg_ratio=self.neg_ratio, contiguous_sampling=self.contiguous_sampling)
+		#train_batch_loader = Batch_Loader(train_triples, self.n_entities, batch_size=self.batch_size, neg_ratio=self.neg_ratio, contiguous_sampling=self.contiguous_sampling)
+		train_batch_loader = Extended_Batch_Loader(train_triples, self.n_entities, self.n_relations, batch_size=self.batch_size, neg_ratio=self.neg_ratio, contiguous_sampling=self.contiguous_sampling)
 		
 		def pred_func(test_triples):
 			return self.predict(sess, test_triples)
