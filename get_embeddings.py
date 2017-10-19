@@ -3,6 +3,7 @@ from optparse import OptionParser
 import numpy as np
 import os
 import config
+from utils.data_utils import load_dict_from_txt
 
 def parse_args(parser):
 	parser.add_option("-m", "--model", dest="model_name", type="string")
@@ -50,10 +51,21 @@ def get_complex_scores(model_name, output_path):
 		saver = tf.train.import_meta_graph("{}.meta".format(checkpoint_file))
 		saver.restore(sess, checkpoint_file)
 
-		heads = graph.get_operation_by_name("heads").outputs[0]
-		tails = graph.get_operation_by_name("tails").outputs[0]
+		heads = graph.get_operation_by_name("head_entities").outputs[0]
+		tails = graph.get_operation_by_name("tail_entities").outputs[0]
+		relations = graph.get_operation_by_name("relations").outputs[0]
 		pred = graph.get_operation_by_name("pred").outputs[0]
-		res = sess.run(pred, feed_dict={heads: [8140], tails: [13196]})
+
+		entity2id = load_dict_from_txt("../NeuralRE/data/entity2id.txt")
+		relation2id = load_dict_from_txt("../NeuralRE/data/relation2id.txt")
+		id2e = {entity2id[x]:x for x in entity2id.keys()}
+		id2r = {relation2id[x]:x for x in relation2id.keys()}
+		e2id = load_dict_from_txt(config.FB1M_E2ID)
+		r2id = load_dict_from_txt(config.FB1M_R2ID)
+		r = []
+		for i in range(1,55):
+			r.append(r2id[id2r[i]])
+		res = sess.run(pred, feed_dict={heads: [e2id[id2r[8140]]]*54, tails: [e2id[id2r[13196]]]*54, relations: r})
 
 		with open(output_path, "w") as f:
 			for x, y in enumerate(res[0]):
