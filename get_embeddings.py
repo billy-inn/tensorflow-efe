@@ -42,7 +42,25 @@ def get_complex_embeddings(model_name, output_path):
 		np.save(os.path.join(output_path, "relation1.npy"), r1)
 		np.save(os.path.join(output_path, "relation2.npy"), r2)
 
+def get_complex_scores(model_name, output_path):
+	checkpoint_file = os.path.join(config.CHECKPOINT_PATH, model_name)
+	graph = tf.Graph()
+	with graph.as_default():
+		sess = tf.Session()
+		saver = tf.train.import_meta_graph("{}.meta".format(checkpoint_file))
+		saver.restore(sess, checkpoint_file)
+
+		heads = graph.get_operation_by_name("heads").outputs[0]
+		tails = graph.get_operation_by_name("tails").outputs[0]
+		pred = graph.get_operation_by_name("pred").outputs[0]
+		res = sess.run(pred, feed_dict={heads: [8140], tails: [13196]})
+
+		with open(output_path, "w") as f:
+			for x, y in enumerate(res[0]):
+				f.write("%d %f\n" % (x, y))
+
 if __name__ == "__main__":
 	parser = OptionParser()
 	options, args = parse_args(parser)
-	get_complex_embeddings(options.model_name, options.output_path)
+	#get_complex_embeddings(options.model_name, options.output_path)
+	get_complex_scores(options.model_name, options.output_path)
