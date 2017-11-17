@@ -16,6 +16,17 @@ def preprocess(data_name):
         r2id_file = config.WN18_R2ID
         sub_mat_file = config.WN18_SUB_MAT
         obj_mat_file = config.WN18_OBJ_MAT
+    elif data_name == "wn18rr":
+        raw_train_file = config.WN18RR_TRAIN_RAW
+        raw_valid_file = config.WN18RR_VALID_RAW
+        raw_test_file = config.WN18RR_TEST_RAW
+        train_file = config.WN18RR_TRAIN
+        valid_file = config.WN18RR_VALID
+        test_file = config.WN18RR_TEST
+        e2id_file = config.WN18RR_E2ID
+        r2id_file = config.WN18RR_R2ID
+        sub_mat_file = config.WN18RR_SUB_MAT
+        obj_mat_file = config.WN18RR_OBJ_MAT
     elif data_name == "fb15k":
         raw_train_file = config.FB15K_TRAIN_RAW
         raw_valid_file = config.FB15K_VALID_RAW
@@ -25,6 +36,19 @@ def preprocess(data_name):
         test_file = config.FB15K_TEST
         e2id_file = config.FB15K_E2ID
         r2id_file = config.FB15K_R2ID
+        sub_mat_file = config.FB15K_SUB_MAT
+        obj_mat_file = config.FB15K_OBJ_MAT
+    elif data_name == "fb15k237":
+        raw_train_file = config.FB15K237_TRAIN_RAW
+        raw_valid_file = config.FB15K237_VALID_RAW
+        raw_test_file = config.FB15K237_TEST_RAW
+        train_file = config.FB15K237_TRAIN
+        valid_file = config.FB15K237_VALID
+        test_file = config.FB15K237_TEST
+        e2id_file = config.FB15K237_E2ID
+        r2id_file = config.FB15K237_R2ID
+        sub_mat_file = config.FB15K237_SUB_MAT
+        obj_mat_file = config.FB15K237_OBJ_MAT
     elif data_name == "fb1m":
         raw_train_file = config.FB1M_TRAIN_RAW
         raw_valid_file = config.FB1M_VALID_RAW

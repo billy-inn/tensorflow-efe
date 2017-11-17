@@ -3,13 +3,23 @@ __pycache__/
 *.py[cod]
 utils/__pycache__/
 
+data/*.npz
+
 data/wn18/digitized_*
 data/wn18/r2id.txt
 data/wn18/e2id.txt
 
+data/wn18rr/digitized_*
+data/wn18rr/r2id.txt
+data/wn18rr/e2id.txt
+
 data/fb15k/digitized_*
 data/fb15k/r2id.txt
 data/fb15k/e2id.txt
+
+data/fb15k-237/digitized_*
+data/fb15k-237/r2id.txt
+data/fb15k-237/e2id.txt
 
 data/fb1m/digitized_*
 data/fb1m/r2id.txt
