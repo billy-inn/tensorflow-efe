@@ -65,7 +65,7 @@ def get_complex_scores(model_name, output_path):
 		r = []
 		for i in range(1,55):
 			r.append(r2id[id2r[i]])
-		res = sess.run(pred, feed_dict={heads: [e2id[id2r[8140]]]*54, tails: [e2id[id2r[13196]]]*54, relations: r})
+		res = sess.run(pred, feed_dict={heads: [e2id[id2e[8140]]]*54, tails: [e2id[id2e[13196]]]*54, relations: r})
 
 		with open(output_path, "w") as f:
 			for x, y in enumerate(res[0]):

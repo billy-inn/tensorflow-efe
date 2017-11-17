@@ -11,10 +11,6 @@ data/fb15k/digitized_*
 data/fb15k/r2id.txt
 data/fb15k/e2id.txt
 
-data/BasketballPlayer/digitized_*
-data/BasketballPlayer/r2id.txt
-data/BasketballPlayer/e2id.txt
-
 data/fb1m/digitized_*
 data/fb1m/r2id.txt
 data/fb1m/e2id.txt

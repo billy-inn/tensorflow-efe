@@ -35,7 +35,7 @@ class Scorer(object):
 			self.known_sub_triples[(j, k)].append(i)
 	
 	def compute_scores(self, predict_func, eval_set):
-		preds = predict_func(eval_set)
+		# preds = predict_func(eval_set)
 
 		nb_test = len(eval_set)
 		ranks = np.empty(2*nb_test)
@@ -81,7 +81,7 @@ class RelationScorer(object):
 			self.known_rel_triples[(i,k)].append(j)
 	
 	def compute_scores(self, predict_func, eval_set):
-		preds = predict_func(eval_set)
+		# preds = predict_func(eval_set)
 
 		nb_test = len(eval_set)
 		ranks = np.empty(nb_test)
