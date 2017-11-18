@@ -4,6 +4,7 @@ __pycache__/
 utils/__pycache__/
 
 data/*.npz
+data/wordnet*
 
 data/wn18/digitized_*
 data/wn18/r2id.txt
