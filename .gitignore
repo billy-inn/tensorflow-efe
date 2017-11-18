@@ -4,6 +4,7 @@ __pycache__/
 utils/__pycache__/
 
 data/*.npz
+data/*.npy
 data/wordnet*
 
 data/wn18/digitized_*

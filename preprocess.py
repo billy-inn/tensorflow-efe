@@ -3,6 +3,7 @@ import numpy as np
 import scipy.sparse as sp
 from optparse import OptionParser
 import config
+import gensim
 
 def preprocess(data_name):
     if data_name == "wn18":
@@ -38,6 +39,8 @@ def preprocess(data_name):
         r2id_file = config.FB15K_R2ID
         sub_mat_file = config.FB15K_SUB_MAT
         obj_mat_file = config.FB15K_OBJ_MAT
+        feat_file = config.FB15K_FEAT
+        model = gensim.models.KeyedVectors.load_word2vec_format(config.FB_EMBEDDING, binary=True)
     elif data_name == "fb15k237":
         raw_train_file = config.FB15K237_TRAIN_RAW
         raw_valid_file = config.FB15K237_VALID_RAW
@@ -49,6 +52,8 @@ def preprocess(data_name):
         r2id_file = config.FB15K237_R2ID
         sub_mat_file = config.FB15K237_SUB_MAT
         obj_mat_file = config.FB15K237_OBJ_MAT
+        feat_file = config.FB15K237_FEAT
+        model = gensim.models.KeyedVectors.load_word2vec_format(config.FB_EMBEDDING, binary=True)
     elif data_name == "fb1m":
         raw_train_file = config.FB1M_TRAIN_RAW
         raw_valid_file = config.FB1M_VALID_RAW
@@ -94,11 +99,18 @@ def preprocess(data_name):
     sub_mat = sub_mat.todok().tocoo()
     obj_mat = obj_mat.todok().tocoo()
 
+    embedding_mat = np.random.uniform(-1, 1, (len(e2id), model.syn0.shape[1]))
+    for e in e2id:
+        if e in model:
+            embedding_mat[e2id[e]] = model[e]
+    feat_mat = np.hstack((sub_mat.todense().T, obj_mat.todense().T, embedding_mat))
+
     df_all[:train_size].to_csv(train_file, header=False, index=False)
     df_all[train_size:train_size + valid_size].to_csv(valid_file, header=False, index=False)
     df_all[train_size + valid_size:].to_csv(test_file, header=False, index=False)
     sp.save_npz(sub_mat_file, sub_mat)
     sp.save_npz(obj_mat_file, obj_mat)
+    np.save(feat_file, feat_mat)
 
 def parse_args(parser):
     parser.add_option("-d", "--data", type="string", dest="data_name", default="wn18")

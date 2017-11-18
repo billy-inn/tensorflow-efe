@@ -43,12 +43,12 @@ param_space_best_TransE_L1_fb15k = {
     "valid_every": 0,
 }
 
-param_space_best_TransE_L1_fb15k_rel = {
-    "embedding_size": 200,
-    "margin": 2.5,
-    "lr": 0.0001,
+param_space_best_TransE_L1_fb3m = {
+    "embedding_size": 100,
+    "margin": 5.0,
+    "lr": 0.0018,
     "batch_size": 5000,
-    "max_iter": 60000,
+    "max_iter": 200000,
     "neg_ratio": 1,
     "contiguous_sampling": False,
     "valid_every": 0,
@@ -87,17 +87,6 @@ param_space_best_DistMult_tanh_fb15k = {
     "valid_every": 0,
 }
 
-param_space_best_DistMult_tanh_fb15k_rel = {
-    "embedding_size": 110,
-    "l2_reg_lambda": 0.0448,
-    "lr": 0.0027,
-    "batch_size": 5000,
-    "max_iter": 20000,
-    "neg_ratio": 1,
-    "contiguous_sampling": False,
-    "valid_every": 0,
-}
-
 param_space_NTN = {
     "embedding_size": 50,
     "k": 2,
@@ -129,18 +118,6 @@ param_space_best_NTN_fb15k = {
     "lr": 0.001,
     "batch_size": 5000,
     "max_iter": 50000,
-    "neg_ratio": 1,
-    "contiguous_sampling": False,
-    "valid_every": 0,
-}
-
-param_space_best_NTN_fb15k_rel = {
-    "embedding_size": 50,
-    "k": 2,
-    "l2_reg_lambda": 0.0417,
-    "lr": 0.0011,
-    "batch_size": 5000,
-    "max_iter": 20000,
     "neg_ratio": 1,
     "contiguous_sampling": False,
     "valid_every": 0,
@@ -190,17 +167,6 @@ param_space_best_Complex_tanh_fb15k = {
     "valid_every": 0,
 }
 
-param_space_best_Complex_tanh_fb15k_rel = {
-    "embedding_size": 140,
-    "l2_reg_lambda": 0.0476,
-    "lr": 0.0005,
-    "batch_size": 5000,
-    "max_iter": 50000,
-    "neg_ratio": 1,
-    "contiguous_sampling": False,
-    "valid_every": 0,
-}
-
 param_space_best_Complex_tanh_fb3m = {
     "embedding_size": 50,
     "l2_reg_lambda": 0.0003,
@@ -229,23 +195,20 @@ param_space_dict = {
     "TransE_L1": param_space_TransE,
     "best_TransE_L2_wn18": param_space_best_TransE_L2_wn18,
     "best_TransE_L1_fb15k": param_space_best_TransE_L1_fb15k,
-    "best_TransE_L1_fb15k_rel": param_space_best_TransE_L1_fb15k_rel,
+    "best_TransE_L1_fb3m": param_space_best_TransE_L1_fb3m,
     "DistMult": param_space_DistMult,
     "DistMult_tanh": param_space_DistMult,
     "best_DistMult_tanh_wn18": param_space_best_DistMult_tanh_wn18,
     "best_DistMult_tanh_fb15k": param_space_best_DistMult_tanh_fb15k,
-    "best_DistMult_tanh_fb15k_rel": param_space_best_DistMult_tanh_fb15k_rel,
     "NTN": param_space_NTN,
     "best_NTN_wn18": param_space_best_NTN_wn18,
     "best_NTN_fb15k": param_space_best_NTN_fb15k,
-    "best_NTN_fb15k_rel": param_space_best_NTN_fb15k_rel,
     "Complex": param_space_Complex,
     "Complex_tanh": param_space_Complex,
     "Complex_fb3m": param_space_Complex_fb3m,
     "Complex_tanh_fb3m": param_space_Complex_fb3m,
     "best_Complex_wn18": param_space_best_Complex_wn18,
     "best_Complex_tanh_fb15k": param_space_best_Complex_tanh_fb15k,
-    "best_Complex_tanh_fb15k_rel": param_space_best_Complex_tanh_fb15k_rel,
     "best_Complex_tanh_fb3m": param_space_best_Complex_tanh_fb3m,
     "CtransE_L2": param_space_CtransE,
 }

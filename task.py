@@ -11,8 +11,8 @@ import config
 import datetime
 import tensorflow as tf
 import scipy.sparse as sp
-from efe import *
-from CtransE import *
+from efe import TransE_L1, TransE_L2, DistMult, DistMult_tanh, Complex, Complex_tanh
+from CtransE import CTransE_L2
 
 class AttrDict(dict):
     def __init__(self, *args, **kwargs):
@@ -87,32 +87,28 @@ class Task:
 
     def _get_model(self):
         args = [self.n_entities, self.n_relations, self.hparams]
-        if "TransE_L2" in self.model_name:
-            return TransE_L2(*args)
-        elif "TransE_L1" in self.model_name:
-            return TransE_L1(*args)
-        elif "DistMult" in self.model_name:
+        TransE_model_list = ["TransE_L2", "TransE_L1", "best_TransE_L2_wn18",
+            "best_TransE_L1_fb15k", "best_TransE_L1_fb3m"]
+        DistMult_model_list = ["DistMult", "DistMult_tanh",
+                "best_DistMult_tanh_wn18", "best_DistMult_tanh_fb15k"]
+        Complex_model_list = ["Complex", "Complex_tanh", "Complex_fb3m",
+                "best_Complex_wn18", "best_Complex_tanh_fb15k",
+                "best_Complex_tanh_fb3m"]
+        if self.model_name in TransE_model_list:
+            if "L2" in self.model_name:
+                return TransE_L2(*args)
+            elif "L1" in self.model_name:
+                return TransE_L1(*args)
+        elif self.model_name in DistMult_model_list:
             if "tanh" in self.model_name:
                 return DistMult_tanh(*args)
             else:
                 return DistMult(*args)
-        elif "NTN" in self.model_name:
-            if "diag" in self.model_name:
-                return NTN_diag(*args)
-            else:
-                return NTN(*args)
-        elif "Complex" in self.model_name:
+        elif self.model_name in Complex_model_list:
             if "tanh" in self.model_name:
                 return Complex_tanh(*args)
-            elif "multi" in self.model_name:
-                return Complex_multi(*args)
             else:
                 return Complex(*args)
-        elif "DEDICOM" in self.model_name:
-            if "complex" in self.model_name:
-                return DEDICOM_Complex(*args)
-            else:
-                return DEDICOM(*args)
         elif "CtransE" in self.model_name:
             args.extend([self.sub_mat, self.obj_mat])
             if "L2" in self.model_name:
