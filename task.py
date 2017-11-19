@@ -13,6 +13,7 @@ import tensorflow as tf
 import scipy.sparse as sp
 from efe import TransE_L1, TransE_L2, DistMult, DistMult_tanh, Complex, Complex_tanh
 from CtransE import CTransE_L2
+from FeatE import FeatE_DistMult
 
 class AttrDict(dict):
     def __init__(self, *args, **kwargs):
@@ -45,6 +46,7 @@ class Task:
             self.r2id = load_dict_from_txt(config.FB15K_R2ID)
             self.sub_mat = sp.load_npz(config.FB15K_SUB_MAT)
             self.obj_mat = sp.load_npz(config.FB15K_OBJ_MAT)
+            self.feat_mat = np.load(config.FB15K_FEAT)
         elif data_name == "fb15k237":
             self.train_triples = pd.read_csv(config.FB15K237_TRAIN, names=["e1", "r", "e2"]).as_matrix()
             self.valid_triples = pd.read_csv(config.FB15K237_VALID, names=["e1", "r", "e2"]).as_matrix()
@@ -53,6 +55,7 @@ class Task:
             self.r2id = load_dict_from_txt(config.FB15K237_R2ID)
             self.sub_mat = sp.load_npz(config.FB15K237_SUB_MAT)
             self.obj_mat = sp.load_npz(config.FB15K237_OBJ_MAT)
+            self.feat_mat = np.load(config.FB15K237_FEAT)
         elif data_name == "fb1m":
             self.train_triples = pd.read_csv(config.FB1M_TRAIN, names=["e1", "r", "e2"]).as_matrix()
             self.valid_triples = pd.read_csv(config.FB1M_VALID, names=["e1", "r", "e2"]).as_matrix()
@@ -94,6 +97,7 @@ class Task:
         Complex_model_list = ["Complex", "Complex_tanh", "Complex_fb3m",
                 "best_Complex_wn18", "best_Complex_tanh_fb15k",
                 "best_Complex_tanh_fb3m"]
+        FeatE_model_list = ["FeatE_DistMult"]
         if self.model_name in TransE_model_list:
             if "L2" in self.model_name:
                 return TransE_L2(*args)
@@ -113,6 +117,10 @@ class Task:
             args.extend([self.sub_mat, self.obj_mat])
             if "L2" in self.model_name:
                 return CTransE_L2(*args)
+        elif self.model_name in FeatE_model_list:
+            args.append(self.feat_mat)
+            if "DistMult" in self.model_name:
+                return FeatE_DistMult(*args)
         else:
             raise AttributeError("Invalid model name! (Check model_param_space.py)")
 
