@@ -11,7 +11,7 @@ FB1M_DATA_PATH = "%s/fb1m" % DATA_PATH
 LOG_PATH = "%s/log" % ROOT_PATH
 CHECKPOINT_PATH = "%s/checkpoint" % ROOT_PATH
 EMBEDDING_PATH = "~/Coding/NLP/WordEmbeddings"
-# EMBEDDING_PATH = "../WordEmbeddings"
+# EMBEDDING_PATH = "/local/data2/pxu4/WordEmbeddings"
 
 # ----------------------- DATA ------------------------
 

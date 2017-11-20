@@ -12,14 +12,14 @@ from hyperopt import hp
 
 param_space_TransE = {
     # "embedding_size": hp.quniform("embedding_size", 50, 200, 10),
-    "embedding_size": 50,
+    "embedding_size": 200,
     "margin": hp.quniform("margin", 0.5, 5, 0.5),
-    "lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-2), 2e-4),
+    "lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
     "batch_size": 5000,
-    "max_iter": 1000000,
+    "max_iter": 100000,
     "neg_ratio": 1,
     "contiguous_sampling": False,
-    "valid_every": 100000,
+    "valid_every": 5000,
 }
 
 param_space_best_TransE_L2_wn18 = {
@@ -56,7 +56,8 @@ param_space_best_TransE_L1_fb3m = {
 }
 
 param_space_DistMult = {
-    "embedding_size": hp.quniform("embedding_size", 50, 200, 10),
+    # "embedding_size": hp.quniform("embedding_size", 50, 200, 10),
+    "embedding_size": 200,
     "l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-3), np.log(1e-1), 1e-3),
     "lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
     "batch_size": 5000,
@@ -125,7 +126,8 @@ param_space_best_NTN_fb15k = {
 }
 
 param_space_Complex = {
-    "embedding_size": hp.quniform("embedding_size", 50, 200, 10),
+    # "embedding_size": hp.quniform("embedding_size", 50, 200, 10),
+    "embedding_size": 200,
     "l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-3), np.log(1e-1), 1e-3),
     "lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
     "batch_size": 5000,
