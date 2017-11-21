@@ -22,6 +22,18 @@ param_space_TransE = {
     "valid_every": 5000,
 }
 
+param_space_TransE_fb3m = {
+    # "embedding_size": hp.quniform("embedding_size", 50, 200, 10),
+    "embedding_size": 50,
+    "margin": hp.quniform("margin", 0.5, 5, 0.5),
+    "lr": hp.qloguniform("lr", np.log(1e-3), np.log(1e-2), 2e-4),
+    "batch_size": 5000,
+    "max_iter": 500000,
+    "neg_ratio": 1,
+    "contiguous_sampling": False,
+    "valid_every": 20000,
+}
+
 param_space_best_TransE_L2_wn18 = {
     "embedding_size": 200,
     "margin": 0.5,
@@ -65,6 +77,18 @@ param_space_DistMult = {
     "neg_ratio": 1,
     "contiguous_sampling": False,
     "valid_every": 5000,
+}
+
+param_space_DistMult_fb3m = {
+    # "embedding_size": hp.quniform("embedding_size", 50, 200, 10),
+    "embedding_size": 50,
+    "l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-3), np.log(1e-1), 1e-3),
+    "lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
+    "batch_size": 5000,
+    "max_iter": 500000,
+    "neg_ratio": 1,
+    "contiguous_sampling": False,
+    "valid_every": 20000,
 }
 
 param_space_best_DistMult_tanh_wn18 = {
@@ -139,13 +163,13 @@ param_space_Complex = {
 
 param_space_Complex_fb3m = {
     "embedding_size": 50,
-    "l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(1e-3), 1e-4),
-    "lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-3), 1e-4),
+    "l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-3), np.log(1e-1), 1e-3),
+    "lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
     "batch_size": 5000,
-    "max_iter": 2000000,
+    "max_iter": 500000,
     "neg_ratio": 1,
     "contiguous_sampling": False,
-    "valid_every": 100000,
+    "valid_every": 20000,
 }
 
 param_space_best_Complex_wn18 = {
