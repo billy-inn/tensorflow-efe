@@ -196,10 +196,10 @@ param_space_best_Complex_tanh_fb15k = {
 
 param_space_best_Complex_tanh_fb3m = {
     "embedding_size": 50,
-    "l2_reg_lambda": 0.0003,
-    "lr": 0.0003,
+    "l2_reg_lambda": 0.031,
+    "lr": 0.0013,
     "batch_size": 5000,
-    "max_iter": 100000,
+    "max_iter": 60000,
     "neg_ratio": 1,
     "contiguous_sampling": False,
     "valid_every": 0,
@@ -235,6 +235,8 @@ param_space_FeatE_DistMult = {
 param_space_dict = {
     "TransE_L2": param_space_TransE,
     "TransE_L1": param_space_TransE,
+    "TransE_L2_fb3m": param_space_TransE_fb3m,
+    "TransE_L1_fb3m": param_space_TransE_fb3m,
     "best_TransE_L2_wn18": param_space_best_TransE_L2_wn18,
     "best_TransE_L1_fb15k": param_space_best_TransE_L1_fb15k,
     "best_TransE_L1_fb3m": param_space_best_TransE_L1_fb3m,

@@ -91,12 +91,13 @@ class Task:
     def _get_model(self):
         args = [self.n_entities, self.n_relations, self.hparams]
         TransE_model_list = ["TransE_L2", "TransE_L1", "best_TransE_L2_wn18",
-            "best_TransE_L1_fb15k", "best_TransE_L1_fb3m"]
+            "best_TransE_L1_fb15k", "best_TransE_L1_fb3m", "TransE_L2_fb3m",
+            "TransE_L1_fb3m"]
         DistMult_model_list = ["DistMult", "DistMult_tanh",
                 "best_DistMult_tanh_wn18", "best_DistMult_tanh_fb15k"]
         Complex_model_list = ["Complex", "Complex_tanh", "Complex_fb3m",
                 "best_Complex_wn18", "best_Complex_tanh_fb15k",
-                "best_Complex_tanh_fb3m"]
+                "best_Complex_tanh_fb3m", "Complex_tanh_fb3m"]
         FeatE_model_list = ["FeatE_DistMult"]
         if self.model_name in TransE_model_list:
             if "L2" in self.model_name:
