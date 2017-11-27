@@ -94,7 +94,8 @@ class Task:
             "best_TransE_L1_fb15k", "best_TransE_L1_fb3m", "TransE_L2_fb3m",
             "TransE_L1_fb3m"]
         DistMult_model_list = ["DistMult", "DistMult_tanh",
-                "best_DistMult_tanh_wn18", "best_DistMult_tanh_fb15k"]
+                "best_DistMult_tanh_wn18", "best_DistMult_tanh_fb15k",
+                "DistMult_tanh_fb3m"]
         Complex_model_list = ["Complex", "Complex_tanh", "Complex_fb3m",
                 "best_Complex_wn18", "best_Complex_tanh_fb15k",
                 "best_Complex_tanh_fb3m", "Complex_tanh_fb3m"]
@@ -184,11 +185,12 @@ class Task:
         self.logger.info("Filtered: Hits@1 %.3f Hits@3 %.3f Hits@10 %.3f" % (self.hits_at1, self.hits_at3, self.hits_at10))
         self.logger.info("-" * 50)
 
-    def refit(self):
+    def refit(self, if_save=False):
         sess = self.create_session()
         sess.run(tf.global_variables_initializer())
         self.model.fit(sess, np.concatenate((self.train_triples, self.valid_triples)))
-        self._save(sess)
+        if if_save:
+            self._save(sess)
 
         def pred_func(test_triples):
             return self.model.predict(sess, test_triples)
