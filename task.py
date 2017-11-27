@@ -10,10 +10,7 @@ import os
 import config
 import datetime
 import tensorflow as tf
-import scipy.sparse as sp
 from efe import TransE_L1, TransE_L2, DistMult, DistMult_tanh, Complex, Complex_tanh
-from CtransE import CTransE_L2
-from FeatE import FeatE_DistMult
 
 class AttrDict(dict):
     def __init__(self, *args, **kwargs):
@@ -28,34 +25,24 @@ class Task:
             self.test_triples = pd.read_csv(config.WN18_TEST, names=["e1", "r", "e2"]).as_matrix()
             self.e2id = load_dict_from_txt(config.WN18_E2ID)
             self.r2id = load_dict_from_txt(config.WN18_R2ID)
-            self.sub_mat = sp.load_npz(config.WN18_SUB_MAT)
-            self.obj_mat = sp.load_npz(config.WN18_OBJ_MAT)
         elif data_name == "wn18rr":
             self.train_triples = pd.read_csv(config.WN18RR_TRAIN, names=["e1", "r", "e2"]).as_matrix()
             self.valid_triples = pd.read_csv(config.WN18RR_VALID, names=["e1", "r", "e2"]).as_matrix()
             self.test_triples = pd.read_csv(config.WN18RR_TEST, names=["e1", "r", "e2"]).as_matrix()
             self.e2id = load_dict_from_txt(config.WN18RR_E2ID)
             self.r2id = load_dict_from_txt(config.WN18RR_R2ID)
-            self.sub_mat = sp.load_npz(config.WN18RR_SUB_MAT)
-            self.obj_mat = sp.load_npz(config.WN18RR_OBJ_MAT)
         elif data_name == "fb15k":
             self.train_triples = pd.read_csv(config.FB15K_TRAIN, names=["e1", "r", "e2"]).as_matrix()
             self.valid_triples = pd.read_csv(config.FB15K_VALID, names=["e1", "r", "e2"]).as_matrix()
             self.test_triples = pd.read_csv(config.FB15K_TEST, names=["e1", "r", "e2"]).as_matrix()
             self.e2id = load_dict_from_txt(config.FB15K_E2ID)
             self.r2id = load_dict_from_txt(config.FB15K_R2ID)
-            self.sub_mat = sp.load_npz(config.FB15K_SUB_MAT)
-            self.obj_mat = sp.load_npz(config.FB15K_OBJ_MAT)
-            self.feat_mat = np.load(config.FB15K_FEAT)
         elif data_name == "fb15k237":
             self.train_triples = pd.read_csv(config.FB15K237_TRAIN, names=["e1", "r", "e2"]).as_matrix()
             self.valid_triples = pd.read_csv(config.FB15K237_VALID, names=["e1", "r", "e2"]).as_matrix()
             self.test_triples = pd.read_csv(config.FB15K237_TEST, names=["e1", "r", "e2"]).as_matrix()
             self.e2id = load_dict_from_txt(config.FB15K237_E2ID)
             self.r2id = load_dict_from_txt(config.FB15K237_R2ID)
-            self.sub_mat = sp.load_npz(config.FB15K237_SUB_MAT)
-            self.obj_mat = sp.load_npz(config.FB15K237_OBJ_MAT)
-            self.feat_mat = np.load(config.FB15K237_FEAT)
         elif data_name == "fb1m":
             self.train_triples = pd.read_csv(config.FB1M_TRAIN, names=["e1", "r", "e2"]).as_matrix()
             self.valid_triples = pd.read_csv(config.FB1M_VALID, names=["e1", "r", "e2"]).as_matrix()
@@ -95,11 +82,10 @@ class Task:
             "TransE_L1_fb3m"]
         DistMult_model_list = ["DistMult", "DistMult_tanh",
                 "best_DistMult_tanh_wn18", "best_DistMult_tanh_fb15k",
-                "DistMult_tanh_fb3m"]
+                "DistMult_tanh_fb3m", "best_DistMult_tanh_fb3m"]
         Complex_model_list = ["Complex", "Complex_tanh", "Complex_fb3m",
                 "best_Complex_wn18", "best_Complex_tanh_fb15k",
                 "best_Complex_tanh_fb3m", "Complex_tanh_fb3m"]
-        FeatE_model_list = ["FeatE_DistMult"]
         if self.model_name in TransE_model_list:
             if "L2" in self.model_name:
                 return TransE_L2(*args)
@@ -115,14 +101,6 @@ class Task:
                 return Complex_tanh(*args)
             else:
                 return Complex(*args)
-        elif "CtransE" in self.model_name:
-            args.extend([self.sub_mat, self.obj_mat])
-            if "L2" in self.model_name:
-                return CTransE_L2(*args)
-        elif self.model_name in FeatE_model_list:
-            args.append(self.feat_mat)
-            if "DistMult" in self.model_name:
-                return FeatE_DistMult(*args)
         else:
             raise AttributeError("Invalid model name! (Check model_param_space.py)")
 
