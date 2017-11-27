@@ -58,10 +58,10 @@ param_space_best_TransE_L1_fb15k = {
 
 param_space_best_TransE_L1_fb3m = {
     "embedding_size": 100,
-    "margin": 5.0,
-    "lr": 0.0018,
+    "margin": 4.5,
+    "lr": 0.001,
     "batch_size": 5000,
-    "max_iter": 200000,
+    "max_iter": 120000,
     "neg_ratio": 1,
     "contiguous_sampling": False,
     "valid_every": 0,
@@ -108,6 +108,17 @@ param_space_best_DistMult_tanh_fb15k = {
     "lr": 0.001,
     "batch_size": 5000,
     "max_iter": 55000,
+    "neg_ratio": 1,
+    "contiguous_sampling": False,
+    "valid_every": 0,
+}
+
+param_space_best_DistMult_tanh_fb3m = {
+    "embedding_size": 100,
+    "l2_reg_lambda": 0.054,
+    "lr": 0.0035,
+    "batch_size": 5000,
+    "max_iter": 60000,
     "neg_ratio": 1,
     "contiguous_sampling": False,
     "valid_every": 0,
@@ -242,8 +253,10 @@ param_space_dict = {
     "best_TransE_L1_fb3m": param_space_best_TransE_L1_fb3m,
     "DistMult": param_space_DistMult,
     "DistMult_tanh": param_space_DistMult,
+    "DistMult_tanh_fb3m": param_space_DistMult_fb3m,
     "best_DistMult_tanh_wn18": param_space_best_DistMult_tanh_wn18,
     "best_DistMult_tanh_fb15k": param_space_best_DistMult_tanh_fb15k,
+    "best_DistMult_tanh_fb3m": param_space_best_DistMult_tanh_fb3m,
     "NTN": param_space_NTN,
     "best_NTN_wn18": param_space_best_NTN_wn18,
     "best_NTN_fb15k": param_space_best_NTN_fb15k,

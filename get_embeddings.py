@@ -11,7 +11,7 @@ def parse_args(parser):
     options, args = parser.parse_args()
     return options, args
 
-def get_distmult_embeddings(model_name, output_path):
+def get_real_embeddings(model_name, output_path):
     checkpoint_file = os.path.join(config.CHECKPOINT_PATH, model_name)
     graph = tf.Graph()
     with graph.as_default():
@@ -81,4 +81,5 @@ if __name__ == "__main__":
     parser = OptionParser()
     options, args = parse_args(parser)
     # get_complex_embeddings(options.model_name, options.output_path)
-    get_complex_scores(options.model_name, options.output_path)
+    # get_complex_scores(options.model_name, options.output_path)
+    get_real_embeddings(options.model_name, options.output_path)
