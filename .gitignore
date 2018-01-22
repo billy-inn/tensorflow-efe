@@ -22,9 +22,7 @@ data/fb15k-237/digitized_*
 data/fb15k-237/r2id.txt
 data/fb15k-237/e2id.txt
 
-data/soccer/digitized_*
-data/soccer/r2id.txt
-data/soccer/e2id.txt
+data/soccer/*
 
 analysis.py
 r_counts.txt
