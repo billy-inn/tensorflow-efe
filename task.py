@@ -4,7 +4,7 @@ from optparse import OptionParser
 from utils import logging_utils
 import numpy as np
 import pandas as pd
-from utils.data_utils import load_dict_from_txt
+from utils.data_utils import load_dict_from_txt, DataSet
 from utils.eval_utils import Scorer, RelationScorer
 import os
 import config
@@ -19,38 +19,9 @@ class AttrDict(dict):
 
 class Task:
     def __init__(self, model_name, data_name, cv_runs, params_dict, logger, eval_by_rel):
-        if data_name == "wn18":
-            self.train_triples = pd.read_csv(config.WN18_TRAIN, names=["e1", "r", "e2"]).as_matrix()
-            self.valid_triples = pd.read_csv(config.WN18_VALID, names=["e1", "r", "e2"]).as_matrix()
-            self.test_triples = pd.read_csv(config.WN18_TEST, names=["e1", "r", "e2"]).as_matrix()
-            self.e2id = load_dict_from_txt(config.WN18_E2ID)
-            self.r2id = load_dict_from_txt(config.WN18_R2ID)
-        elif data_name == "wn18rr":
-            self.train_triples = pd.read_csv(config.WN18RR_TRAIN, names=["e1", "r", "e2"]).as_matrix()
-            self.valid_triples = pd.read_csv(config.WN18RR_VALID, names=["e1", "r", "e2"]).as_matrix()
-            self.test_triples = pd.read_csv(config.WN18RR_TEST, names=["e1", "r", "e2"]).as_matrix()
-            self.e2id = load_dict_from_txt(config.WN18RR_E2ID)
-            self.r2id = load_dict_from_txt(config.WN18RR_R2ID)
-        elif data_name == "fb15k":
-            self.train_triples = pd.read_csv(config.FB15K_TRAIN, names=["e1", "r", "e2"]).as_matrix()
-            self.valid_triples = pd.read_csv(config.FB15K_VALID, names=["e1", "r", "e2"]).as_matrix()
-            self.test_triples = pd.read_csv(config.FB15K_TEST, names=["e1", "r", "e2"]).as_matrix()
-            self.e2id = load_dict_from_txt(config.FB15K_E2ID)
-            self.r2id = load_dict_from_txt(config.FB15K_R2ID)
-        elif data_name == "fb15k237":
-            self.train_triples = pd.read_csv(config.FB15K237_TRAIN, names=["e1", "r", "e2"]).as_matrix()
-            self.valid_triples = pd.read_csv(config.FB15K237_VALID, names=["e1", "r", "e2"]).as_matrix()
-            self.test_triples = pd.read_csv(config.FB15K237_TEST, names=["e1", "r", "e2"]).as_matrix()
-            self.e2id = load_dict_from_txt(config.FB15K237_E2ID)
-            self.r2id = load_dict_from_txt(config.FB15K237_R2ID)
-        elif data_name == "fb1m":
-            self.train_triples = pd.read_csv(config.FB1M_TRAIN, names=["e1", "r", "e2"]).as_matrix()
-            self.valid_triples = pd.read_csv(config.FB1M_VALID, names=["e1", "r", "e2"]).as_matrix()
-            self.test_triples = pd.read_csv(config.FB1M_TEST, names=["e1", "r", "e2"]).as_matrix()
-            self.e2id = load_dict_from_txt(config.FB1M_E2ID)
-            self.r2id = load_dict_from_txt(config.FB1M_R2ID)
-        else:
-            raise AttributeError("Invalid data name! (Valid data name: wn18, fb15k, bp)")
+        dataset = DataSet(config.DATASET[data_name])
+        self.train_triples, self.valid_triples, self.test_triples = dataset.load_data()
+        self.e2id, self.r2id = dataset.load_idx()
 
         self.model_name = model_name
         self.data_name = data_name

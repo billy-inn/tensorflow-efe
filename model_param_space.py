@@ -216,33 +216,6 @@ param_space_best_Complex_tanh_fb3m = {
     "valid_every": 0,
 }
 
-param_space_CtransE = {
-    "embedding_size": hp.quniform("embedding_size", 50, 200, 10),
-    "margin": hp.quniform("margin", 0.5, 5, 0.5),
-    "lambda": hp.qloguniform("lambda", np.log(1e-4), np.log(1e-1), 1e-4),
-    "lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
-    "batch_size": 2000,
-    "max_iter": 100000,
-    "neg_ratio": 1,
-    "contiguous_sampling": False,
-    "valid_every": 5000,
-}
-
-param_space_FeatE_DistMult = {
-    "embedding_size": hp.quniform("embedding_size", 50, 100, 10),
-    "fe_size": hp.quniform("fe_size", 50, 100, 10),
-    "hidden_layers": 1,
-    "hidden_size": hp.quniform("hidden_size", 100, 500, 10),
-    "dropout_keep_prob": hp.quniform("dropout_keep_prob", 0.5, 1.0, 0.1),
-    "l2_reg_lambda": hp.qloguniform("l2_reg_lambda", np.log(1e-4), np.log(1e-1), 1e-4),
-    "lr": hp.qloguniform("lr", np.log(1e-4), np.log(1e-2), 1e-4),
-    "batch_size": 5000,
-    "max_iter": 100000,
-    "neg_ratio": 1,
-    "contiguous_sampling": False,
-    "valid_every": 5000,
-}
-
 param_space_dict = {
     "TransE_L2": param_space_TransE,
     "TransE_L1": param_space_TransE,
@@ -267,8 +240,6 @@ param_space_dict = {
     "best_Complex_wn18": param_space_best_Complex_wn18,
     "best_Complex_tanh_fb15k": param_space_best_Complex_tanh_fb15k,
     "best_Complex_tanh_fb3m": param_space_best_Complex_tanh_fb3m,
-    "CtransE_L2": param_space_CtransE,
-    "FeatE_DistMult": param_space_FeatE_DistMult,
 }
 
 int_params = [
