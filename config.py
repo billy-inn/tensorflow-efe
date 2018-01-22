@@ -7,6 +7,7 @@ WN18RR_DATA_PATH = "%s/wn18rr" % DATA_PATH
 FB15K_DATA_PATH = "%s/fb15k" % DATA_PATH
 FB15K237_DATA_PATH = "%s/fb15k-237" % DATA_PATH
 FB3M_DATA_PATH = "%s/fb1m" % DATA_PATH
+SOCCER_DATA_PATH = "%s/soccer" % DATA_PATH
 
 LOG_PATH = "%s/log" % ROOT_PATH
 CHECKPOINT_PATH = "%s/checkpoint" % ROOT_PATH
@@ -115,6 +116,26 @@ DATASET["fb3m"] = {
     "test": FB3M_TEST,
     "e2id": FB3M_E2ID,
     "r2id": FB3M_R2ID,
+}
+
+SOCCER_TRAIN_RAW = "%s/train.txt" % SOCCER_DATA_PATH
+SOCCER_VALID_RAW = "%s/valid.txt" % SOCCER_DATA_PATH
+SOCCER_TEST_RAW = "%s/test.txt" % SOCCER_DATA_PATH
+SOCCER_TRAIN = "%s/digitized_train.txt" % SOCCER_DATA_PATH
+SOCCER_VALID = "%s/digitized_valid.txt" % SOCCER_DATA_PATH
+SOCCER_TEST = "%s/digitized_test.txt" % SOCCER_DATA_PATH
+SOCCER_E2ID = "%s/e2id.txt" % SOCCER_DATA_PATH
+SOCCER_R2ID = "%s/r2id.txt" % SOCCER_DATA_PATH
+
+DATASET["soccer"] = {
+    "train_raw": SOCCER_TRAIN_RAW,
+    "valid_raw": SOCCER_VALID_RAW,
+    "test_raw": SOCCER_TEST_RAW,
+    "train": SOCCER_TRAIN,
+    "valid": SOCCER_VALID,
+    "test": SOCCER_TEST,
+    "e2id": SOCCER_E2ID,
+    "r2id": SOCCER_R2ID,
 }
 
 FB_EMBEDDING = "%s/freebase-vectors-skipgram1000.bin" % EMBEDDING_PATH
