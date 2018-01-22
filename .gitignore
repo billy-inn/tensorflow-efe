@@ -30,3 +30,5 @@ analysis.py
 r_counts.txt
 
 log/*.log
+
+old/*
