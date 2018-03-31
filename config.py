@@ -8,6 +8,7 @@ FB15K_DATA_PATH = "%s/fb15k" % DATA_PATH
 FB15K237_DATA_PATH = "%s/fb15k-237" % DATA_PATH
 FB3M_DATA_PATH = "%s/fb1m" % DATA_PATH
 SOCCER_DATA_PATH = "%s/soccer" % DATA_PATH
+SQA_DATA_PATH = "%s/sqa" % DATA_PATH
 
 LOG_PATH = "%s/log" % ROOT_PATH
 CHECKPOINT_PATH = "%s/checkpoint" % ROOT_PATH
@@ -136,6 +137,26 @@ DATASET["soccer"] = {
     "test": SOCCER_TEST,
     "e2id": SOCCER_E2ID,
     "r2id": SOCCER_R2ID,
+}
+
+SQA_TRAIN_RAW = "%s/train.txt" % SQA_DATA_PATH
+SQA_VALID_RAW = "%s/valid.txt" % SQA_DATA_PATH
+SQA_TEST_RAW = "%s/test.txt" % SQA_DATA_PATH
+SQA_TRAIN = "%s/digitized_train.txt" % SQA_DATA_PATH
+SQA_VALID = "%s/digitized_valid.txt" % SQA_DATA_PATH
+SQA_TEST = "%s/digitized_test.txt" % SQA_DATA_PATH
+SQA_E2ID = "%s/e2id.txt" % SQA_DATA_PATH
+SQA_R2ID = "%s/r2id.txt" % SQA_DATA_PATH
+
+DATASET["sqa"] = {
+    "train_raw": SQA_TRAIN_RAW,
+    "valid_raw": SQA_VALID_RAW,
+    "test_raw": SQA_TEST_RAW,
+    "train": SQA_TRAIN,
+    "valid": SQA_VALID,
+    "test": SQA_TEST,
+    "e2id": SQA_E2ID,
+    "r2id": SQA_R2ID,
 }
 
 FB_EMBEDDING = "%s/freebase-vectors-skipgram1000.bin" % EMBEDDING_PATH
