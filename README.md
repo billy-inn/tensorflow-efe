@@ -5,7 +5,7 @@ A collection of Tensorflow implementations of embeddings for entities.
 ### Requirements
 
 - Python 3
-- Tensorflow >= 1.0
+- Tensorflow >= 1.2
 - Hyperopt
 
 ### Models
@@ -19,6 +19,10 @@ All specific models are implemented in [efe.py](https://github.com/billy-inn/ten
 | NTN | NTN | [Socher et al. (NIPS 2013)](https://nlp.stanford.edu/pubs/SocherChenManningNg_NIPS2013.pdf) |
 | DistMult | DistMult; DistMult\_tanh | [Yang et al. (ICLR 2015)](https://arxiv.org/pdf/1412.6575.pdf)
 | ComplEx | Complex; Complex\_tanh | [Trouillon et al. (ICML 2016)](https://arxiv.org/pdf/1606.06357.pdf) |
+
+### Preprocess
+
+`python preprocess.py -d [data_name]`
 
 ### Hyperparameters
 
