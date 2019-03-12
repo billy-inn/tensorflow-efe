@@ -1,4 +1,4 @@
-from utils.batch_utils import *
+from utils.batch_utils import Batch_Loader, Extended_Batch_Loader
 import tensorflow as tf
 import numpy as np
 import datetime
@@ -70,7 +70,9 @@ class Model(object):
         print("{}: step {}, loss {:g}".format(time_str, step, loss))
 
     def validate(self, sess, valid_triples):
-        valid_batch_loader = Batch_Loader(valid_triples, self.n_entities, batch_size=self.batch_size, neg_ratio=self.neg_ratio, contiguous_sampling=True)
+        valid_batch_loader = Batch_Loader(
+            valid_triples, self.n_entities, batch_size=self.batch_size,
+            neg_ratio=self.neg_ratio, contiguous_sampling=True)
         total_loss = 0.0
         total_len = 0
         for i in range(len(valid_triples) // self.batch_size + 1):
@@ -82,7 +84,9 @@ class Model(object):
         return total_loss / total_len
 
     def predict(self, sess, test_triples):
-        test_batch_loader = Batch_Loader(test_triples, self.n_entities, batch_size=5000, neg_ratio=0, contiguous_sampling=True)
+        test_batch_loader = Batch_Loader(
+            test_triples, self.n_entities, batch_size=5000,
+            neg_ratio=0, contiguous_sampling=True)
         preds = []
         for i in range(len(test_triples) // 5000 + 1):
             input_batch = test_batch_loader()
@@ -92,8 +96,12 @@ class Model(object):
         return preds
 
     def fit(self, sess, train_triples, valid_triples=None, scorer=None):
-        # train_batch_loader = Batch_Loader(train_triples, self.n_entities, batch_size=self.batch_size, neg_ratio=self.neg_ratio, contiguous_sampling=self.contiguous_sampling)
-        train_batch_loader = Extended_Batch_Loader(train_triples, self.n_entities, self.n_relations, batch_size=self.batch_size, neg_ratio=self.neg_ratio, contiguous_sampling=self.contiguous_sampling)
+        #  train_batch_loader = Batch_Loader(
+        #      train_triples, self.n_entities, batch_size=self.batch_size,
+        #      neg_ratio=self.neg_ratio, contiguous_sampling=self.contiguous_sampling)
+        train_batch_loader = Extended_Batch_Loader(
+            train_triples, self.n_entities, self.n_relations, batch_size=self.batch_size,
+            neg_ratio=self.neg_ratio, contiguous_sampling=self.contiguous_sampling)
 
         def pred_func(test_triples):
             return self.predict(sess, test_triples)
@@ -104,12 +112,15 @@ class Model(object):
             input_batch = train_batch_loader()
             self.train_on_batch(sess, input_batch)
             current_step = tf.train.global_step(sess, self.global_step)
-            if (self.valid_every != 0) and (current_step % self.valid_every == 0) and (valid_triples is not None):
+            if (self.valid_every != 0) and (current_step % self.valid_every == 0) \
+                    and (valid_triples is not None):
                 print("\nValidation:")
                 res = scorer.compute_scores(pred_func, valid_triples)
                 print("Raw MRR {:g}, Filtered MRR {:g}".format(res.raw_mrr, res.mrr))
-                print("Raw: Hits@1 {:g} Hits@3 {:g} Hits@10 {:g}".format(res.raw_hits_at1, res.raw_hits_at3, res.raw_hits_at10))
-                print("Filtered: Hits@1 {:g} Hits@3 {:g} Hits@10 {:g}".format(res.hits_at1, res.hits_at3, res.hits_at10))
+                print("Raw: Hits@1 {:g} Hits@3 {:g} Hits@10 {:g}".format(
+                    res.raw_hits_at1, res.raw_hits_at3, res.raw_hits_at10))
+                print("Filtered: Hits@1 {:g} Hits@3 {:g} Hits@10 {:g}".format(
+                    res.hits_at1, res.hits_at3, res.hits_at10))
                 if best_mrr < res.mrr:
                     best_mrr = res.mrr
                     best_res = res

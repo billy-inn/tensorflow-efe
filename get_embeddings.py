@@ -6,6 +6,7 @@ import config
 from utils.data_utils import load_dict_from_txt
 
 def parse_args(parser):
+    parser.add_option("-e", "--embed", dest="embed_type", type="string")
     parser.add_option("-m", "--model", dest="model_name", type="string")
     parser.add_option("-o", "--output", dest="output_path", type="string")
     options, args = parser.parse_args()
@@ -56,12 +57,9 @@ def get_complex_scores(model_name, output_path):
         relations = graph.get_operation_by_name("relations").outputs[0]
         pred = graph.get_operation_by_name("pred").outputs[0]
 
-        entity2id = load_dict_from_txt("/local/data2/pxu4/RelationExtraction/data/entity2id.txt")
-        relation2id = load_dict_from_txt("/local/data2/pxu4/RelationExtraction/data/relation2id.txt")
-        id2e = {entity2id[x]: x for x in entity2id.keys()}
+        relation2id = load_dict_from_txt("../HRERE/data/relation2id.txt")
         id2r = {relation2id[x]: x for x in relation2id.keys()}
-        e2id = load_dict_from_txt(config.FB1M_E2ID)
-        r2id = load_dict_from_txt(config.FB1M_R2ID)
+        r2id = load_dict_from_txt(config.FB3M_R2ID)
         r = []
         for i in range(1, 55):
             r.append(r2id[id2r[i]])
@@ -80,6 +78,9 @@ def get_complex_scores(model_name, output_path):
 if __name__ == "__main__":
     parser = OptionParser()
     options, args = parse_args(parser)
-    # get_complex_embeddings(options.model_name, options.output_path)
-    # get_complex_scores(options.model_name, options.output_path)
-    get_real_embeddings(options.model_name, options.output_path)
+    if args.embed_type == "real":
+        get_real_embeddings(options.model_name, options.output_path)
+    elif args.embed_type == "complex":
+        get_complex_embeddings(options.model_name, options.output_path)
+    else:
+        get_complex_scores(options.model_name, options.output_path)
