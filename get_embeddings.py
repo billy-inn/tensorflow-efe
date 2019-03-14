@@ -78,9 +78,9 @@ def get_complex_scores(model_name, output_path):
 if __name__ == "__main__":
     parser = OptionParser()
     options, args = parse_args(parser)
-    if args.embed_type == "real":
+    if options.embed_type == "real":
         get_real_embeddings(options.model_name, options.output_path)
-    elif args.embed_type == "complex":
+    elif options.embed_type == "complex":
         get_complex_embeddings(options.model_name, options.output_path)
     else:
         get_complex_scores(options.model_name, options.output_path)
